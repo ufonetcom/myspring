@@ -7,6 +7,7 @@ import javax.servlet.Filter;
 
 //web.xml을 대신 할 설정 클래스
 //WebApplicationInitializer를 구현할수도 있지만, 더 간단한 방법으로 설정한다.
+//AbstractAnnotationConfigDispatcherServletInitializer은 WebApplicationInitializer 구현체중에 하나.
 public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitializer {
 
     //프로젝트에서 사용할 Bean과 DB설정을 위한 클래스.
@@ -31,6 +32,7 @@ public class WebConfig extends AbstractAnnotationConfigDispatcherServletInitiali
     protected Filter[] getServletFilters() {
         CharacterEncodingFilter encodingFilter = new CharacterEncodingFilter();
         encodingFilter.setEncoding("UTF-8");
+        encodingFilter.setForceEncoding(true);
         return new Filter[]{encodingFilter};
     }
 
