@@ -89,7 +89,6 @@
             <groupId>org.apache.logging.log4j</groupId>
             <artifactId>log4j-slf4j-impl</artifactId>
             <version>${org.log4j-version}</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -155,7 +154,7 @@
         <dependency>
             <groupId>org.mybatis</groupId>
             <artifactId>mybatis</artifactId>
-            <version>3.5.3</version>
+            <version>3.5.5</version>
         </dependency>
         <dependency>
             <groupId>org.mybatis</groupId>
@@ -166,7 +165,7 @@
         <!-- SQL 로그(기존의 jdbc datasource보다 더 상세한 로그 확인 가능) -->
         <dependency>
             <groupId>org.bgee.log4jdbc-log4j2</groupId>
-            <artifactId>log4jdbc-log4j2-jdbc4</artifactId>
+            <artifactId>log4jdbc-log4j2-jdbc4.1</artifactId>
             <version>1.16</version>
         </dependency>
 

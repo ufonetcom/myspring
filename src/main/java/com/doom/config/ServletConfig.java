@@ -2,14 +2,11 @@ package com.doom.config;
 
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.EnableWebMvc;
-import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
-import org.springframework.web.servlet.config.annotation.ViewResolverRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.*;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan(basePackages = "com.doom.controller")
+@ComponentScan(basePackages = "com.doom")
 public class ServletConfig implements WebMvcConfigurer {
 
     @Override
@@ -26,4 +23,5 @@ public class ServletConfig implements WebMvcConfigurer {
         ///resources/모든것 들로 오는 요청을 프로젝트 /resources/된 경로로 매핑시켜 준다. (webapp 이하에 resources폴더)
         registry.addResourceHandler("/resources/**").addResourceLocations("/resources/");
     }
+
 }
