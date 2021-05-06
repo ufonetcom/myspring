@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 Mapper의 인터페이스와 동일한 이름을 주어야한다.-->
+<mapper namespace="com.doom.mapper.BoardMapper">
+
+    <sql id="boardColumns">
+        board_no, title, content, writer, regdate, updatedate, deletedate, viewcnt, delete_yn
+    </sql>
+
+    <select id="getList" resultType="com.doom.domain.BoardVO">
+        <![CDATA[
+            select *
+            from tbl_board
+            where board_no > 0 and delete_yn = 'N'
+            order by regdate desc
+        ]]>
+    </select>
+
+    <insert id="insertBoard">
+        insert into tbl_board(title, content, writer)
+        values (#{title}, #{content}, #{writer})
+    </insert>
+
+    <insert id="insertBoardSelectKey">
+        <selectKey keyProperty="board_no" order="AFTER" resultType="long">
+            select LAST_INSERT_ID()
+        </selectKey>
+
+        insert into tbl_board(title, content, writer)
+        values (#{title}, #{content}, #{writer});
+    </insert>
+
+    <select id="readBoard" resultType="com.doom.domain.BoardVO">
+        select <include refid="boardColumns"/>
+        from tbl_board
+        where board_no = #{board_no}
+    </select>
+
+<!--  삭제되지 않은 모든 게시글의 조회수를 구하는 쿼리. (추 후 페이징처리에서 사용)  -->
+    <select id="readBoardTotalCount" resultType="int">
+        select COUNT (*)
+        from tbl_board
+        where delete_yn = 'N'
+    </select>
+
+<!--  delete쿼리문 대신 update를 사용하여 삭제여부 컬럼에 변화를 주어 관리자에서 삭제여부도 확인 할 수 있게 구현.-->
+    <update id="deleteBoard">
+        update tbl_board
+        set delete_yn = 'Y', deletedate = now()
+        where board_no = #{board_no}
+    </update>
+
+
+</mapper>
