@@ -48,15 +48,16 @@ public class BoardServiceTests {
 
     @Test
     public void testGetDetailByBoardNo() {
-        log.info(boardService.getDetailByBoardNo(1L));
+        log.info(boardService.getDetailByBoardNo(25L));
     }
 
     @Test
     public void testDelete() {
         //게시물의 삭제여부를 확인하고 테스트
-        if(boardService.getDetailByBoardNo(22L).getDelete_yn().equals("N")){
-            log.info("Remove Result: {}", boardService.remove(22L));
-        }
+        boolean resultRemove = boardService.remove(25L);
+        log.info("Remove Result: {}", resultRemove);
+        Assert.assertEquals(true,resultRemove);
+
     }
 
     @Test
