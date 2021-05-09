@@ -2,21 +2,21 @@
 <Configuration>
     <Appenders>
         <Console name="console_root" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d %5p %m%n" />
+            <PatternLayout pattern="%d %5p: [%c] %m%n" />
         </Console>
         <Console name="console_com" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d %5p [%c] %m%n" />
+            <PatternLayout pattern="%d %5p: [%c] %m%n" />
         </Console>
     </Appenders>
 
     <Loggers>
-        <Logger name="java.sql" level="INFO" additivity="false">
+        <Logger name="java.sql" level="WARN" additivity="false">
             <AppenderRef ref="console_com" />
         </Logger>
-        <Logger name="jdbc.sqltiming" level="INFO" additivity="false">
+        <Logger name="jdbc.sqltiming" level="WARN" additivity="false">
             <AppenderRef ref="console_com" />
         </Logger>
-        <Logger name="egovframework" level="INFO" additivity="false">
+        <Logger name="egovframework" level="WARN" additivity="false">
             <AppenderRef ref="console_com" />
         </Logger>
         <Logger name="com" level="INFO" additivity="false">

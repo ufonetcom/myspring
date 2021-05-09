@@ -2,7 +2,7 @@
 <Configuration>
     <Appenders>
         <Console name="console_root" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d %5p %m%n" />
+            <PatternLayout pattern="%d %5p: [%c] %m%n" />
         </Console>
         <Console name="console_com" target="SYSTEM_OUT">
             <PatternLayout pattern="%d %5p [%c] %m%n" />
@@ -21,10 +21,10 @@
         </Logger>
         <!--<Logger name="com" level="warn" additivity="false">
             <AppenderRef ref="console_com" />
-        </Logger>
-        <Logger name="org.springframework" level="warn" additivity="false">
-            <AppenderRef ref="console_com" />
         </Logger>-->
+        <!--<Logger name="org.springframework" level="warn" additivity="false">
+            <AppenderRef ref="console_com" />
+        </Logger>&ndash;&gt;-->
         <Root level="INFO">
             <AppenderRef ref="console_root" />
         </Root>

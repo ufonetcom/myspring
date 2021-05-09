@@ -57,9 +57,29 @@ public class BoardMapperTests {
     }
 
     @Test
+    public void testReadBoardTotalCount() {
+        int count = mapper.readBoardTotalCount();
+        log.info("삭제되지 않은 게시글의 총 갯수 = {}",count);
+    }
+
+    @Test
     public void testDeleteBoard() {
         log.info("Delete =>>>> {}", mapper.deleteBoard(21L));
         log.info(mapper.readBoard(21L));
+    }
+
+
+
+    @Test
+    public void testUpdateBoard() {
+        BoardVO boardVO = new BoardVO();
+        boardVO.setBoard_no(20L);
+        boardVO.setTitle("업데이트 테스트");
+        boardVO.setContent("업데이트 테스트 내용");
+        boardVO.setWriter("doomupdate");
+
+        int count = mapper.updateBoard(boardVO);
+        log.info("Update Count : {}",count);
     }
 
 
