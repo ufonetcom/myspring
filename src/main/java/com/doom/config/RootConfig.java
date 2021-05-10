@@ -21,7 +21,7 @@ public class RootConfig {
         //setJdbcUrl 정말 중요 ? 다음부터 값 확실히 알기
         HikariConfig hikariConfig = new HikariConfig();
         hikariConfig.setDriverClassName("net.sf.log4jdbc.sql.jdbcapi.DriverSpy");
-        hikariConfig.setJdbcUrl("jdbc:log4jdbc:mysql://localhost:3306/myspringdb?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8&useSSL=false");
+        hikariConfig.setJdbcUrl("jdbc:log4jdbc:mysql://localhost:3306/myspringdb?serverTimezone=Asia/Seoul&useUnicode=true&characterEncoding=utf8&allowPublicKeyRetrieval=true&useSSL=false");
         hikariConfig.setUsername("root");
         hikariConfig.setPassword("12345");
 

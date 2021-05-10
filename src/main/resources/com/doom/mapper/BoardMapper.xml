@@ -13,7 +13,7 @@
             select *
             from tbl_board
             where board_no > 0 and delete_yn = 'N'
-            order by regdate desc
+            order by regdate desc, board_no desc
         ]]>
     </select>
 
