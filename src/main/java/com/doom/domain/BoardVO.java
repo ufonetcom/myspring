@@ -12,7 +12,7 @@ public class BoardVO {
     private String title;
     private String content;
     private String writer;
-    private LocalDateTime regdate;
+    private Date regdate;
     private LocalDateTime updatedate;
     private LocalDateTime deletedate;
     private int viewcnt;
