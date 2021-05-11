@@ -1,4 +1,5 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 
 <%@include file="../includes/header.jsp"%>
@@ -32,8 +33,8 @@
                                 <td><c:out value="${board.board_no}"/></td>
                                 <td><c:out value="${board.title}"/></td>
                                 <td><c:out value="${board.writer}"/></td>
-                                <td><c:out value="${board.regdate}"/></td>
-                                <td><c:out value="${board.updatedate}"/></td>
+                                <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${board.regdate}"/>
+                                <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${board.updatedate}"/>
                                 <td><c:out value="${board.viewcnt}"/></td>
                             </tr>
                         </c:forEach>

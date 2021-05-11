@@ -1,9 +1,11 @@
 package com.doom.mapper;
 
 import com.doom.domain.BoardVO;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
 
+@Mapper
 public interface BoardMapper {
 
     //@Select("select * from tbl_board where board_no > 0")
