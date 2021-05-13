@@ -29,6 +29,8 @@ public class BoardServiceImpl implements BoardService{
 
         log.info("getDetailByBoardNO......");
 
+        
+
         BoardVO boardVO = boardMapper.readBoard(board_no);
         return boardVO;
     }

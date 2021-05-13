@@ -80,5 +80,11 @@
         where board_no=#{board_no}
     </update>
 
+    <update id="updateViewCnt">
+        update tbl_board
+        set viewcnt = viewcnt + 1
+        where board_no=#{board_no}
+    </update>
+
 
 </mapper>

@@ -23,4 +23,6 @@ public interface BoardMapper {
 
     public int updateBoard(BoardVO boardVO);
 
+    public void updateViewCnt(Long board_no);
+
 }

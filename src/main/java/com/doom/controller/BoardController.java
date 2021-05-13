@@ -28,16 +28,18 @@ public class BoardController {
     }
 
     @GetMapping("/get")
-    public void get(@RequestParam("board_no") Long board_no, Model model) {
+    public String get(@RequestParam("board_no") Long board_no, Model model) {
 
         log.info("/get");
         BoardVO detailByBoardNo = boardService.getDetailByBoardNo(board_no);
         model.addAttribute("board", detailByBoardNo);
+
+        return "board/getDetail";
     }
 
     @GetMapping("/register")
-    public void register() {
-
+    public String register() {
+        return "board/register";
     }
 
     @PostMapping("/register")
