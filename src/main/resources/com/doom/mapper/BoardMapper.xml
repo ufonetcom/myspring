@@ -9,6 +9,24 @@
         board_no, title, content, writer, regdate, updatedate, deletedate, viewcnt, delete_yn, notice_yn, secret_yn
     </sql>
 
+    <!-- BoardVo regdate type이 String이고 jsp에서 format을 안썻을때 ,, 오늘 게시글 등록은 시간별 출력, 그게 아니면 날짜 출력 쿼리
+    <select id="getList" resultType="com.doom.domain.BoardVO">
+        <![CDATA[
+            select board_no, title, content, writer,
+                IF(
+                DATE_FORMAT(regdate, '%Y%m%d') < DATE_FORMAT(now(),'%Y%m%d'),
+                DATE_FORMAT(regdate, '%Y.%m.%d'),
+                DATE_FORMAT(regdate, '%H:%i')
+                ) as regdate,
+
+                   updatedate, deletedate, viewcnt, delete_yn, notice_yn, secret_yn
+            from tbl_board
+
+            where board_no > 0 and delete_yn = 'N'
+            order by board_no desc, regdate desc
+        ]]>
+    </select>-->
+
     <select id="getList" resultType="com.doom.domain.BoardVO">
         <![CDATA[
             select *
@@ -17,6 +35,7 @@
             order by board_no desc, regdate desc
         ]]>
     </select>
+
 
     <insert id="insertBoard">
         insert into tbl_board(title, content, writer)

@@ -62,4 +62,8 @@ public class BoardVO {
     //설명을 읽어보면 String 타입도 사용 가능하지만 추 후에 자바에서 지원하는 Date기능에 대해서 다양하게 조작하기 위해서는 String타입 보다 Date타입이 유리하기 때문에 Date를 사용할 것이다.
     // 다만 Date(java.util.Date)타입은 jsp format을 사용하지 않게되면 GMT일시를 포함해서 포맷되기 때문에
     //Thu May 06 01:42:48 KST 2021 이러한 값이 나오게 된다!! 사용하기전에 기호에 맞게 사용하자! Date(java.util.Date는 jsp formatDate 사용하기!!
+
+    //but,, 오늘 작성된 게시글은 시간만 나오고 오늘작성되지 않은 글은 날짜만 나오게 하고싶어 regdate(등록일)컬럼 타입을 String으로 바꿨다.
+    //db에서 datetime값을 받아 쿼리에서 알맞은 형식으로 조건문을 주어 String형태로 뿌린다. 이때 원래 타입이 Date여서 String 형태의 날짜형식을 못받게 돼어 바꿨다.
+    //Date타입을 유지하고 이 문제를 풀수 있는 방법을 찾아봐야겠다..
 }

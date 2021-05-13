@@ -1,7 +1,6 @@
 package com.doom.service;
 
 import com.doom.domain.BoardVO;
-import com.doom.mapper.BoardMapper;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.junit.Assert;
@@ -16,8 +15,6 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @Log4j2
 public class BoardServiceTests {
 
-//    @Autowired
-//    private BoardService boardService;
     @Setter(onMethod_ = {@Autowired})
     private BoardService boardService;
 
@@ -48,7 +45,9 @@ public class BoardServiceTests {
 
     @Test
     public void testGetDetailByBoardNo() {
-        log.info(boardService.getDetailByBoardNo(25L));
+        log.info(boardService.getDetailByBoardNo(30L));
+        BoardVO boardVO = boardService.getDetailByBoardNo(29L);
+        log.info("regidate 값 확인 ==========> {}",boardVO.getRegdate());
     }
 
     @Test

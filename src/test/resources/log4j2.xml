@@ -2,10 +2,10 @@
 <Configuration>
     <Appenders>
         <Console name="console_root" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d %5p: [%c] %m%n" />
+            <PatternLayout pattern="%style{%d{ISO8601}}{bright,red} %highlight{%-5level }: [%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %m%n" />
         </Console>
         <Console name="console_com" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d %5p [%c] %m%n" />
+            <PatternLayout pattern="%style{%d{ISO8601}}{bright,red} %highlight{%-5level }: [%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %m%n" />
         </Console>
     </Appenders>
 
@@ -19,12 +19,12 @@
         <Logger name="jdbc.connection" level="warn" additivity="false">
             <AppenderRef ref="console_com" />
         </Logger>
-        <!--<Logger name="com" level="warn" additivity="false">
+        <Logger name="com" level="info" additivity="false">
             <AppenderRef ref="console_com" />
-        </Logger>-->
-        <!--<Logger name="org.springframework" level="warn" additivity="false">
+        </Logger>
+        <Logger name="org.springframework" level="warn" additivity="false">
             <AppenderRef ref="console_com" />
-        </Logger>&ndash;&gt;-->
+        </Logger>
         <Root level="INFO">
             <AppenderRef ref="console_root" />
         </Root>

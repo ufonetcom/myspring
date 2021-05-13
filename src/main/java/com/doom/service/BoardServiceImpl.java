@@ -83,6 +83,7 @@ public class BoardServiceImpl implements BoardService{
         if (boardTotalCountNotDelete > 0) {
             boardList = boardMapper.getList(); //삭제되지 않은 개시글 갯수가 존재하면 호출한다.
         }
+
         return boardList;
     }
 }

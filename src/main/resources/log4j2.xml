@@ -2,10 +2,10 @@
 <Configuration>
     <Appenders>
         <Console name="console_root" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d %5p: [%c] %m%n" />
+            <PatternLayout pattern="%style{%d{ISO8601}}{cyan} %highlight{%-5level }: [%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %m%n" />
         </Console>
         <Console name="console_com" target="SYSTEM_OUT">
-            <PatternLayout pattern="%d %5p: [%c] %m%n" />
+            <PatternLayout pattern="%style{%d{ISO8601}}{cyan} %highlight{%-5level }: [%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %m%n" />
         </Console>
     </Appenders>
 
@@ -13,9 +13,18 @@
         <Logger name="java.sql" level="WARN" additivity="false">
             <AppenderRef ref="console_com" />
         </Logger>
+        <Logger name="jdbc.audit" level="off" additivity="false">
+            <AppenderRef ref="console_com" />
+        </Logger>
+        <Logger name="jdbc.resultset" level="warn" additivity="false">
+            <AppenderRef ref="console_com" />
+        </Logger>
         <Logger name="jdbc.sqltiming" level="WARN" additivity="false">
             <AppenderRef ref="console_com" />
         </Logger>
+        <logger name="org.apache" level="off" additivity="false">
+            <Appender-ref ref="console_com"/>
+        </logger>
         <Logger name="egovframework" level="WARN" additivity="false">
             <AppenderRef ref="console_com" />
         </Logger>

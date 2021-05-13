@@ -17,24 +17,33 @@
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                         <tr>
                             <th>번호</th>
                             <th>제목</th>
                             <th>작성자</th>
                             <th>작성일</th>
-                            <th>수정일</th>
                             <th>조회수</th>
                         </tr>
                         </thead>
+                        <c:set var="today" value="<%=new java.util.Date()%>"/>
+                        <c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd"/></c:set>
+
                         <c:forEach items="${list}" var="board">
+                            <c:set var="regtoday"><fmt:formatDate value="${board.regdate}" pattern="yyyy-MM-dd"/></c:set>
                             <tr>
                                 <td><c:out value="${board.board_no}"/></td>
                                 <td><c:out value="${board.title}"/></td>
                                 <td><c:out value="${board.writer}"/></td>
-                                <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${board.regdate}"/>
-                                <td><fmt:formatDate pattern="yyyy-MM-dd hh:mm:ss" value="${board.updatedate}"/>
+                                <c:choose>
+                                    <c:when test="${date eq regtoday}">
+                                        <td><fmt:formatDate value="${board.regdate}" pattern="hh:mm:ss"/></td>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <td><c:out value="${regtoday}"/></td>
+                                    </c:otherwise>
+                                </c:choose>
                                 <td><c:out value="${board.viewcnt}"/></td>
                             </tr>
                         </c:forEach>
