@@ -24,6 +24,11 @@
                            value='<c:out value="${board.board_no}"/>' readonly="readonly">
                 </div>
                 <div class="col-sm-8 mb-5">
+                    <label>등록일</label>
+                    <input class="form-control" name="board_no"
+                           value='<fmt:formatDate value="${board.regdate}" pattern="yyyy-MM-dd HH:ss"/>' readonly="readonly">
+                </div>
+                <div class="col-sm-8 mb-5">
                     <label>제목</label>
                     <input type="text" class="form-control" name="title"
                            value='<c:out value="${board.title}"/>' readonly="readonly">
@@ -39,19 +44,44 @@
                 </div>
 
                 <div>
-                    <button data-oper="modify" class="btn btn-success"
-                    onclick="location.href='/board/modify?board_no=<c:out value="${board.board_no}"/>'">Modify</button>
+                    <button data-oper="modify" class="btn btn-success btn-icon-split">
+                        <span class="icon text-white-50">
+                                <i class="fas fa-check"></i>
+                        </span>
+                        <span class="text">수정</span>
+                    </button>
 
-                    <button data-oper="list" class="btn btn-info"
-                    onclick="location.href='/board/list'">List</button>
+                    <button data-oper="list" class="btn btn-info btn-icon-split">
+                        <span class="icon text-white-50">
+                            <i class="fas fa-arrow-right"></i>
+                            </span>
+                        <span class="text">목록</span>
+                    </button>
+
+                    <form id="operForm" action="/board/modify" method="get">
+                        <input type="hidden" id="board_no" name="board_no" value='<c:out value="${board.board_no}"/>'>
+                    </form>
                 </div>
             </div>
-
-
         </div>
     </div>
 
 </div>
 <!-- /.container-fluid -->
+<script type="text/javascript">
+    $(document).ready(function () {
+        let operForm = $("#operForm");
+
+        $("button[data-oper='modify']").on("click", function (e) {
+            operForm.attr("action", "/board/modify").submit();
+        });
+
+        $("button[data-oper='list']").on("click", function (e) {
+            operForm.find("#board_no").remove();
+            operForm.attr("action", "/board/list");
+            operForm.submit();
+        });
+    });
+</script>
 
 <%@include file="../includes/footer.jsp"%>

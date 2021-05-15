@@ -29,7 +29,7 @@ public class BoardServiceImpl implements BoardService{
 
         log.info("getDetailByBoardNO......");
 
-        
+        boardMapper.updateViewCnt(board_no);
 
         BoardVO boardVO = boardMapper.readBoard(board_no);
         return boardVO;

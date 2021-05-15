@@ -35,7 +35,7 @@
                             <c:set var="regtoday"><fmt:formatDate value="${board.regdate}" pattern="yyyy-MM-dd"/></c:set>
                             <tr>
                                 <td><c:out value="${board.board_no}"/></td>
-                                <td><a href="/board/get?board_no=${board.board_no}"><c:out value="${board.title}"/></a></td>
+                                <td><a href="/board/getDetail?board_no=${board.board_no}"><c:out value="${board.title}"/></a></td>
                                 <td><c:out value="${board.writer}"/></td>
                                 <c:choose>
                                     <c:when test="${date eq regtoday}">
@@ -77,6 +77,8 @@
         $(document).ready(function () {
             let result = '<c:out value="${result}"/>';
 
+            console.log(result);
+
             checkModal(result);
 
             history.replaceState({},null,null);
@@ -86,8 +88,12 @@
                     return;
                 }
 
-                if(parseInt(result) > 0){
+                if(parseInt(result) > 0) {
                     $(".modal-body").html("게시글 " + parseInt(result) + " 번이 등록되었습니다.");
+                }else if(result === "modify-success"){
+                    $(".modal-body").html("게시글이 수정되었습니다.");
+                }else if(result === "delete-success"){
+                    $(".modal-body").html("게시글이 삭제되었습니다.");
                 }
                 $("#myModal").modal("show");
 

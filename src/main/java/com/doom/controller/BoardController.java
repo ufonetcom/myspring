@@ -27,14 +27,12 @@ public class BoardController {
         model.addAttribute("list", boardService.getList());
     }
 
-    @GetMapping("/get")
-    public String get(@RequestParam("board_no") Long board_no, Model model) {
+    @GetMapping({"/getDetail","/modify"})
+    public void getDetail(@RequestParam("board_no") Long board_no, Model model) {
 
-        log.info("/get");
+        log.info("/get or modify");
         BoardVO detailByBoardNo = boardService.getDetailByBoardNo(board_no);
         model.addAttribute("board", detailByBoardNo);
-
-        return "board/getDetail";
     }
 
     @GetMapping("/register")
@@ -59,7 +57,7 @@ public class BoardController {
         log.info("modify : {}", boardVO);
         boolean modify_TF = boardService.modify(boardVO);
         if (modify_TF) {
-            rttr.addFlashAttribute("result", "success");
+            rttr.addFlashAttribute("result", "modify-success");
         }
         return "redirect:/board/list";
     }
@@ -69,7 +67,7 @@ public class BoardController {
         log.info("remove.....{}", board_no);
         boolean remove_TF = boardService.remove(board_no);
         if (remove_TF) {
-            rttr.addFlashAttribute("result", "success");
+            rttr.addFlashAttribute("result", "delete-success");
         }
         return "redirect:/board/list";
     }
