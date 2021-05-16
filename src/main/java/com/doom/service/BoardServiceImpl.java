@@ -1,5 +1,6 @@
 package com.doom.service;
 
+import com.doom.common.Criteria;
 import com.doom.domain.BoardVO;
 import com.doom.mapper.BoardMapper;
 import lombok.AllArgsConstructor;
@@ -68,22 +69,22 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<BoardVO> getList() {
+    public List<BoardVO> getList(Criteria criteria) {
 
         log.info("getList.........");
 
-        List<BoardVO> boardList = getBoardList();
+        List<BoardVO> boardList = getBoardList(criteria);
 
         return boardList;
     }
 
-    private List<BoardVO> getBoardList() {
+    private List<BoardVO> getBoardList(Criteria criteria) {
         List<BoardVO> boardList = Collections.emptyList(); //예상치못한 NPE를 방지하기 위해 비어있는 list를 선언
 
-        int boardTotalCountNotDelete = boardMapper.readBoardTotalCount(); //delete_yn값이 'N'인 게시글의 갯수
+        int boardTotalCountNotDelete = boardMapper.readBoardTotalCount(criteria); //delete_yn값이 'N'인 게시글의 갯수
 
         if (boardTotalCountNotDelete > 0) {
-            boardList = boardMapper.getList(); //삭제되지 않은 개시글 갯수가 존재하면 호출한다.
+            boardList = boardMapper.getList(criteria); //삭제되지 않은 개시글 갯수가 존재하면 호출한다.
         }
 
         return boardList;

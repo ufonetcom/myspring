@@ -1,5 +1,6 @@
 package com.doom.mapper;
 
+import com.doom.common.Criteria;
 import com.doom.domain.BoardVO;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -19,7 +20,8 @@ public class BoardMapperTests {
 
     @Test
     public void testGetList() {
-        mapper.getList().forEach(boardVO -> log.info(boardVO));
+        Criteria criteria = new Criteria();
+        mapper.getList(criteria).forEach(boardVO -> log.info(boardVO));
     }
 
     @Test
@@ -58,7 +60,8 @@ public class BoardMapperTests {
 
     @Test
     public void testReadBoardTotalCount() {
-        int count = mapper.readBoardTotalCount();
+        Criteria criteria = new Criteria();
+        int count = mapper.readBoardTotalCount(criteria);
         log.info("삭제되지 않은 게시글의 총 갯수 = {}",count);
     }
 

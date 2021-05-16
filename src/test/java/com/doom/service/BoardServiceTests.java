@@ -1,5 +1,6 @@
 package com.doom.service;
 
+import com.doom.common.Criteria;
 import com.doom.domain.BoardVO;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
@@ -39,8 +40,8 @@ public class BoardServiceTests {
 
     @Test
     public void testGetList() {
-
-        boardService.getList().forEach(boardVO -> log.info(boardVO));
+        Criteria criteria = new Criteria();
+        boardService.getList(criteria).forEach(boardVO -> log.info(boardVO));
     }
 
     @Test

@@ -1,5 +1,6 @@
 package com.doom.mapper;
 
+import com.doom.common.Criteria;
 import com.doom.domain.BoardVO;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -9,7 +10,7 @@ import java.util.List;
 public interface BoardMapper {
 
     //@Select("select * from tbl_board where board_no > 0")
-    public List<BoardVO> getList();
+    public List<BoardVO> getList(Criteria criteria);
 
     public void insertBoard(BoardVO boardVO);
 
@@ -17,7 +18,7 @@ public interface BoardMapper {
 
     public BoardVO readBoard(Long board_no);
 
-    public int readBoardTotalCount();
+    public int readBoardTotalCount(Criteria criteria);
 
     public int deleteBoard(Long board_no);
 

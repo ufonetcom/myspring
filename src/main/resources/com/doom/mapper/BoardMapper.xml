@@ -27,13 +27,15 @@
         ]]>
     </select>-->
 
-    <select id="getList" resultType="com.doom.domain.BoardVO">
+    <select id="getList" parameterType="com.doom.common.Criteria" resultType="com.doom.domain.BoardVO">
         <![CDATA[
             select *
             from tbl_board
             where board_no > 0 and delete_yn = 'N'
             order by board_no desc, regdate desc
         ]]>
+            limit #{startPage}, #{recordsPerPage}
+
     </select>
 
 
@@ -58,7 +60,7 @@
     </select>
 
 <!--  삭제되지 않은 모든 게시글의 갯수를 구하는 쿼리. (추 후 페이징처리에서 사용)  -->
-    <select id="readBoardTotalCount" resultType="int">
+    <select id="readBoardTotalCount" parameterType="com.doom.common.Criteria" resultType="int">
         select COUNT(*)
         from tbl_board
         where delete_yn = 'N'
