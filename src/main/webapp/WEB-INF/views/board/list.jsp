@@ -31,7 +31,7 @@
                         <c:set var="today" value="<%=new java.util.Date()%>"/>
                         <c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd"/></c:set>
 
-                        <c:forEach items="${list}" var="board">
+                        <c:forEach items="${boardList}" var="board">
                             <c:set var="regtoday"><fmt:formatDate value="${board.regdate}" pattern="yyyy-MM-dd"/></c:set>
                             <tr>
                                 <td><c:out value="${board.board_no}"/></td>
@@ -49,6 +49,33 @@
                             </tr>
                         </c:forEach>
                     </table>
+
+                    <!-- Paging[s] -->
+                    <div class="col-sm-12 col-md-7" style="text-align:right">
+                        <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
+                            <ul class="pagination">
+
+                                <c:if test="${board.pagination.hasPreviousPage}">
+                                    <li class="paginate_button page-item previous" id="dataTable_previous">
+                                        <a href="javascript:void(0);" onclick="fn_go_page(${board.pagination.firstPage - 1}); return false;" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                    </li>
+                                </c:if>
+
+                                <c:forEach var="num" begin="${board.pagination.firstPage}" end="${board.pagination.lastPage}">
+                                    <li class="paginate_button page-item">
+                                        <a href="javascript:void(0);" onclick="fn_go_page(${num}); return false;" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">${num}</a>
+                                    </li>
+                                </c:forEach>
+
+                                <c:if test="${board.pagination.hasNextPage}">
+                                    <li class="paginate_button page-item next" id="dataTable_next">
+                                        <a href="javascript:void(0);" onclick="fn_go_page(${board.pagination.lastPage + 1}); return false;" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Next</a>
+                                    </li>
+                                </c:if>
+                            </ul>
+                        </div>
+                    </div>
+                    <!-- Paging[e] -->
 
                     <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                          aria-hidden="true">
@@ -74,6 +101,15 @@
     </div>
     <!-- /.container-fluid -->
     <script type="text/javascript">
+
+        function fn_go_page(pageNo) {
+            // console.log("pageNo" + pageNo);
+            let pageNum = '${board.makeQueryString(pageNo)}';
+            console.log(pageNum);
+            self.location = "/board/list"+pageNum;
+            return false;
+        }
+
         $(document).ready(function () {
             let result = '<c:out value="${result}"/>';
 
@@ -98,6 +134,7 @@
                 $("#myModal").modal("show");
 
             }
+
 
             $("#regBtn").on("click", function (){
                 self.location = "/board/register";

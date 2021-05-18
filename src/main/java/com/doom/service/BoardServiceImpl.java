@@ -1,11 +1,10 @@
 package com.doom.service;
 
-import com.doom.common.Criteria;
+import com.doom.common.Pagination;
 import com.doom.domain.BoardVO;
 import com.doom.mapper.BoardMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Collections;
@@ -69,22 +68,28 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public List<BoardVO> getList(Criteria criteria) {
+    public List<BoardVO> getList(BoardVO boardVO) {
 
         log.info("getList.........");
 
-        List<BoardVO> boardList = getBoardList(criteria);
+        List<BoardVO> boardList = getBoardList(boardVO);
 
         return boardList;
     }
 
-    private List<BoardVO> getBoardList(Criteria criteria) {
+    private List<BoardVO> getBoardList(BoardVO boardVO) {
         List<BoardVO> boardList = Collections.emptyList(); //예상치못한 NPE를 방지하기 위해 비어있는 list를 선언
 
-        int boardTotalCountNotDelete = boardMapper.readBoardTotalCount(criteria); //delete_yn값이 'N'인 게시글의 갯수
+        int boardTotalCountNotDelete = boardMapper.readBoardTotalCount(boardVO); //delete_yn값이 'N'인 게시글의 갯수
+
+        /** 게시글 전체 개수를 pagination클래스 totalRecordCount변수에 담아 객체를 set해준다.*/
+        Pagination pagination = new Pagination(boardVO);
+        pagination.setTotalRecordCount(boardTotalCountNotDelete);
+
+        boardVO.setPagination(pagination);
 
         if (boardTotalCountNotDelete > 0) {
-            boardList = boardMapper.getList(criteria); //삭제되지 않은 개시글 갯수가 존재하면 호출한다.
+            boardList = boardMapper.getList(boardVO); //삭제되지 않은 개시글 갯수가 존재하면 호출한다.
         }
 
         return boardList;

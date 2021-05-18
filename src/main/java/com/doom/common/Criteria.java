@@ -2,6 +2,8 @@ package com.doom.common;
 
 import lombok.Getter;
 import lombok.Setter;
+import org.springframework.web.util.UriComponents;
+import org.springframework.web.util.UriComponentsBuilder;
 
 @Getter
 @Setter
@@ -22,7 +24,16 @@ public class Criteria {
         this.pageSize = 10;
     }
 
-    public int getStartPage() {
-        return (currentPageNo - 1) * recordsPerPage;
+    public String makeQueryString(int pageNo) {
+        System.out.println("nummmmmmmmm" + pageNo);
+        UriComponents uriComponents = UriComponentsBuilder.newInstance()
+                .queryParam("currentPageNo", pageNo)
+                .queryParam("recordsPerPage", recordsPerPage)
+                .queryParam("pageSize",pageSize)
+                .build()
+                .encode();
+
+        return uriComponents.toUriString();
     }
+
 }

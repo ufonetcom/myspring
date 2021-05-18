@@ -10,7 +10,7 @@ import java.util.List;
 public interface BoardMapper {
 
     //@Select("select * from tbl_board where board_no > 0")
-    public List<BoardVO> getList(Criteria criteria);
+    public List<BoardVO> getList(BoardVO boardVO);
 
     public void insertBoard(BoardVO boardVO);
 
@@ -18,7 +18,7 @@ public interface BoardMapper {
 
     public BoardVO readBoard(Long board_no);
 
-    public int readBoardTotalCount(Criteria criteria);
+    public int readBoardTotalCount(BoardVO boardVO);
 
     public int deleteBoard(Long board_no);
 

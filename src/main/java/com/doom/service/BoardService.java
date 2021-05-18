@@ -16,7 +16,7 @@ public interface BoardService {
 
     public boolean remove(Long board_no);
 
-    public List<BoardVO> getList(Criteria criteria);
+    public List<BoardVO> getList(BoardVO boardVO);
 
 
 

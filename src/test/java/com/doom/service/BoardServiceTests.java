@@ -40,8 +40,8 @@ public class BoardServiceTests {
 
     @Test
     public void testGetList() {
-        Criteria criteria = new Criteria();
-        boardService.getList(criteria).forEach(boardVO -> log.info(boardVO));
+        BoardVO board = new BoardVO();
+        boardService.getList(board).forEach(boardVO -> log.info(boardVO));
     }
 
     @Test

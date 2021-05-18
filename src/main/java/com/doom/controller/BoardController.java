@@ -10,6 +10,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
 @Controller
 @Log4j2
 @AllArgsConstructor
@@ -19,10 +21,10 @@ public class BoardController {
     private BoardService boardService;
 
     @GetMapping("/list")
-    public void list(@ModelAttribute("criteria") Criteria criteria, Model model) {
+    public void list(@ModelAttribute("board") BoardVO board, Model model) {
         log.info("list");
-
-        model.addAttribute("list", boardService.getList(criteria));
+        List<BoardVO> boardList = boardService.getList(board);
+        model.addAttribute("boardList", boardList);
     }
 
     @GetMapping({"/getDetail","/modify"})

@@ -20,8 +20,8 @@ public class BoardMapperTests {
 
     @Test
     public void testGetList() {
-        Criteria criteria = new Criteria();
-        mapper.getList(criteria).forEach(boardVO -> log.info(boardVO));
+        BoardVO board = new BoardVO();
+        mapper.getList(board).forEach(boardVO -> log.info(boardVO));
     }
 
     @Test
@@ -60,8 +60,8 @@ public class BoardMapperTests {
 
     @Test
     public void testReadBoardTotalCount() {
-        Criteria criteria = new Criteria();
-        int count = mapper.readBoardTotalCount(criteria);
+        BoardVO board = new BoardVO();
+        int count = mapper.readBoardTotalCount(board);
         log.info("삭제되지 않은 게시글의 총 갯수 = {}",count);
     }
 
