@@ -31,21 +31,21 @@
                         <c:set var="today" value="<%=new java.util.Date()%>"/>
                         <c:set var="date"><fmt:formatDate value="${today}" pattern="yyyy-MM-dd"/></c:set>
 
-                        <c:forEach items="${boardList}" var="board">
-                            <c:set var="regtoday"><fmt:formatDate value="${board.regdate}" pattern="yyyy-MM-dd"/></c:set>
+                        <c:forEach items="${boardList}" var="list">
+                            <c:set var="regtoday"><fmt:formatDate value="${list.regdate}" pattern="yyyy-MM-dd"/></c:set>
                             <tr>
-                                <td><c:out value="${board.board_no}"/></td>
-                                <td><a href="/board/getDetail?board_no=${board.board_no}"><c:out value="${board.title}"/></a></td>
-                                <td><c:out value="${board.writer}"/></td>
+                                <td><c:out value="${list.board_no}"/></td>
+                                <td><a href="/board/getDetail${board.makeQueryString(board.currentPageNo)}&board_no=${list.board_no}"><c:out value="${list.title}"/></a></td>
+                                <td><c:out value="${list.writer}"/></td>
                                 <c:choose>
                                     <c:when test="${date eq regtoday}">
-                                        <td><fmt:formatDate value="${board.regdate}" pattern="HH:mm:ss"/></td>
+                                        <td><fmt:formatDate value="${list.regdate}" pattern="HH:mm:ss"/></td>
                                     </c:when>
                                     <c:otherwise>
                                         <td><c:out value="${regtoday}"/></td>
                                     </c:otherwise>
                                 </c:choose>
-                                <td><c:out value="${board.viewcnt}"/></td>
+                                <td><c:out value="${list.viewcnt}"/></td>
                             </tr>
                         </c:forEach>
                     </table>
@@ -54,22 +54,37 @@
                     <div class="col-sm-12 col-md-7" style="text-align:right">
                         <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
                             <ul class="pagination">
+                                <c:if test="${board.pagination.hasPreviousPage}">
+                                    <li class="paginate_button page-item previous" id="dataTable_previous">
+                                        <a href="/board/list${board.makeQueryString(1)}"
+                                           aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">&laquo;</a>
+                                    </li>
+                                </c:if>
 
                                 <c:if test="${board.pagination.hasPreviousPage}">
                                     <li class="paginate_button page-item previous" id="dataTable_previous">
-                                        <a href="javascript:void(0);" onclick="fn_go_page(${board.pagination.firstPage - 1}); return false;" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Previous</a>
+                                        <a href="/board/list${board.makeQueryString(board.pagination.firstPage-1)}"
+                                           aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">&lsaquo;</a>
                                     </li>
                                 </c:if>
 
                                 <c:forEach var="num" begin="${board.pagination.firstPage}" end="${board.pagination.lastPage}">
-                                    <li class="paginate_button page-item">
-                                        <a href="javascript:void(0);" onclick="fn_go_page(${num}); return false;" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">${num}</a>
+                                    <li class="paginate_button page-item ${board.currentPageNo == num ? 'active' : ''}">
+                                        <a href="/board/list${board.makeQueryString(num)}"
+                                           aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">${num}</a>
                                     </li>
                                 </c:forEach>
 
                                 <c:if test="${board.pagination.hasNextPage}">
                                     <li class="paginate_button page-item next" id="dataTable_next">
-                                        <a href="javascript:void(0);" onclick="fn_go_page(${board.pagination.lastPage + 1}); return false;" aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">Next</a>
+                                        <a href="/board/list${board.makeQueryString(board.pagination.lastPage+1)}"
+                                           aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">&rsaquo;</a>
+                                    </li>
+                                </c:if>
+                                <c:if test="${board.pagination.hasNextPage}">
+                                    <li class="paginate_button page-item previous" id="dataTable_previous">
+                                        <a href="/board/list${board.makeQueryString(board.pagination.totalPageCount)}"
+                                           aria-controls="dataTable" data-dt-idx="0" tabindex="0" class="page-link">&raquo;</a>
                                     </li>
                                 </c:if>
                             </ul>
@@ -102,17 +117,15 @@
     <!-- /.container-fluid -->
     <script type="text/javascript">
 
-        function fn_go_page(pageNo) {
+        /*function fn_go_page(num) {
             // console.log("pageNo" + pageNo);
-            let pageNum = '${board.makeQueryString(pageNo)}';
-            console.log(pageNum);
-            self.location = "/board/list"+pageNum;
-            return false;
-        }
+
+            <%--self.location.href = "/board/list${board.makeQueryString(pageNo)}";--%>
+            self.location.href = "/board/list"+num;
+        }*/
 
         $(document).ready(function () {
             let result = '<c:out value="${result}"/>';
-
             console.log(result);
 
             checkModal(result);

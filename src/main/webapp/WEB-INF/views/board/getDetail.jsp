@@ -71,6 +71,8 @@
 <script type="text/javascript">
     $(document).ready(function () {
         let operForm = $("#operForm");
+        let page = '${params.currentPageNo}';
+        console.log("page >> "+page);
 
         $("button[data-oper='modify']").on("click", function (e) {
             operForm.attr("action", "/board/modify").submit();
@@ -78,7 +80,7 @@
 
         $("button[data-oper='list']").on("click", function (e) {
             operForm.find("#board_no").remove();
-            operForm.attr("action", "/board/list");
+            operForm.attr("action", "/board/list${params.makeQueryString(page)}");
             operForm.submit();
         });
     });

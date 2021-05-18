@@ -23,12 +23,13 @@ public class BoardController {
     @GetMapping("/list")
     public void list(@ModelAttribute("board") BoardVO board, Model model) {
         log.info("list");
+        log.info("pageNo Test = {}", board.makeQueryString(board.getCurrentPageNo()));
         List<BoardVO> boardList = boardService.getList(board);
         model.addAttribute("boardList", boardList);
     }
 
     @GetMapping({"/getDetail","/modify"})
-    public void getDetail(@RequestParam("board_no") Long board_no, Model model) {
+    public void getDetail(@ModelAttribute("params") BoardVO params, @RequestParam("board_no") Long board_no, Model model) {
 
         log.info("/get or modify");
         BoardVO detailByBoardNo = boardService.getDetailByBoardNo(board_no);
