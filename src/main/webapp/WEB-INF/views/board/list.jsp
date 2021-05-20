@@ -14,6 +14,10 @@
         <div class="card shadow mb-4" >
             <div class="card-header py-3" style="display: flex; justify-content: space-between">
                 <h6 style="padding-top: 10px;" class=" font-weight-bold text-primary">Board List Page</h6>
+                <div class="input-group" id="search">
+
+                </div>
+                <input type="text" >
                 <button  id='regBtn' type="button" class="btn btn-outline-info pull-right">Register</button>
             </div>
             <div class="card-body">
@@ -51,7 +55,7 @@
                     </table>
 
                     <!-- Paging[s] -->
-                    <div class="col-sm-12 col-md-7" style="text-align:right">
+                    <div class="col-sm-12 col-md-7" style="text-align:right" >
                         <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
                             <ul class="pagination">
                                 <c:if test="${board.pagination.hasPreviousPage}">

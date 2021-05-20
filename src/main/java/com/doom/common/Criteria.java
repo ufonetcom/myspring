@@ -18,6 +18,12 @@ public class Criteria {
     /** 화면 하단에 출력할 페이지 갯수*/
     private int pageSize;
 
+    /** 검색 키워드 */
+    private String searchKeyword;
+
+    /** 검색 유형 */
+    private String searchType;
+
     public Criteria() {
         this.currentPageNo = 1;
         this.recordsPerPage = 10;
@@ -30,6 +36,8 @@ public class Criteria {
                 .queryParam("currentPageNo", pageNo)
                 .queryParam("recordsPerPage", recordsPerPage)
                 .queryParam("pageSize",pageSize)
+                .queryParam("searchType", searchType)
+                .queryParam("searchKeyword", searchKeyword)
                 .build()
                 .encode();
 

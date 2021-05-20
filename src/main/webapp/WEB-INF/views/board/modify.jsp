@@ -17,6 +17,8 @@
         </div>
         <div class="card-body">
             <form role="form" action="/board/modify" method="post">
+<%--                hidden값에 나머지 recordsPerPage와 pageSize 값은 현재로써는 동적이지 않으므로 view단에서는 crrentPageNo만 넘긴다.--%>
+                <input type="hidden" id="currentPageNo" name="currentPageNo" value='<c:out value="${params.currentPageNo}"/>'>
                 <div class="form-group">
                     <div class="col-sm-8 mb-5">
                         <label>글 번호</label>
@@ -58,12 +60,19 @@
                             </span>
                             <span class="text">글삭제</span>
                         </button>
-                        <button type="submit" data-oper='list' class="btn btn-info btn-icon-split">
+<%--                        목록으로 가기는 바로 밑에 button을 사용해 script로 사용할수도 있지만 a태그를 script없이 사용하는 모습을 보여주기 위해 a태그로 사용--%>
+                        <a href="/board/list${params.makeQueryString(params.currentPageNo)}" class="btn btn-info btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fas fa-arrow-right"></i>
                             </span>
                             <span class="text">목록</span>
-                        </button>
+                        </a>
+                        <%--<button type="submit" data-oper='list' class="btn btn-info btn-icon-split">
+                            <span class="icon text-white-50">
+                                <i class="fas fa-arrow-right"></i>
+                            </span>
+                            <span class="text">목록</span>
+                        </button>--%>
                     </div>
                 </div>
 
@@ -87,9 +96,12 @@
             if (operation === 'remove') {
                 formObj.attr("action", "/board/remove");
             }else if (operation === 'list') {
-                //move to list
+                //move to list 현재는 a태그를 사용하여 데이터를 전송하기 때문에 실제로 이 else if list는 호출되지 않는다.
+                //currentPageNoTag는 list를 클릭하였을때 필요한 정보인 currentPageNo 이외에 다른 폼정보가 넘어가는걸 방지하기 위해서 clone()에 보내고싶은 정보만 저장한다.
                 formObj.attr("action","/board/list").attr("method","get");
+                let currentPageNoTag = $("input[name='currentPageNo']").clone();
                 formObj.empty();
+                formObj.append(currentPageNoTag);
             }
             formObj.submit();
         });

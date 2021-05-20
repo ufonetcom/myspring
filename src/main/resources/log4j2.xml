@@ -2,10 +2,10 @@
 <Configuration>
     <Appenders>
         <Console name="console_root" target="SYSTEM_OUT">
-            <PatternLayout pattern="%style{%d{ISO8601}}{cyan} %highlight{%-5level }: [%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %m%n" />
+            <PatternLayout pattern="%style{%d{ISO8601}}{cyan} %highlight{%-5level }: [%style{%t}{bright,blue}] %style{%l{1.}}{bright,yellow}: %m%n" />
         </Console>
         <Console name="console_com" target="SYSTEM_OUT">
-            <PatternLayout pattern="%style{%d{ISO8601}}{cyan} %highlight{%-5level }: [%style{%t}{bright,blue}] %style{%C{1.}}{bright,yellow}: %m%n" />
+            <PatternLayout pattern="%style{%d{ISO8601}}{cyan} %highlight{%-5level }: [%style{%t}{bright,blue}] %style{%l{1.}}{bright,yellow}: %m%n" />
         </Console>
     </Appenders>
 

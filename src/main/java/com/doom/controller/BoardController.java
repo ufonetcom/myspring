@@ -56,18 +56,27 @@ public class BoardController {
     @PostMapping("/modify")
     public String modify(BoardVO boardVO, RedirectAttributes rttr) {
         log.info("modify : {}", boardVO);
+        log.info("pageNo!!! : {}", boardVO.getCurrentPageNo());
         boolean modify_TF = boardService.modify(boardVO);
         if (modify_TF) {
+            rttr.addAttribute("currentPageNo", boardVO.getCurrentPageNo());
+            rttr.addAttribute("recordsPerPage", boardVO.getRecordsPerPage());
+            rttr.addAttribute("pageSize", boardVO.getPageSize());
+
             rttr.addFlashAttribute("result", "modify-success");
         }
         return "redirect:/board/list";
     }
 
     @PostMapping("/remove")
-    public String remove(@RequestParam("board_no") Long board_no, RedirectAttributes rttr) {
+    public String remove(BoardVO boardVO, @RequestParam("board_no") Long board_no, RedirectAttributes rttr) {
         log.info("remove.....{}", board_no);
         boolean remove_TF = boardService.remove(board_no);
         if (remove_TF) {
+            rttr.addAttribute("currentPageNo", boardVO.getCurrentPageNo());
+            rttr.addAttribute("recordsPerPage", boardVO.getRecordsPerPage());
+            rttr.addAttribute("pageSize", boardVO.getPageSize());
+
             rttr.addFlashAttribute("result", "delete-success");
         }
         return "redirect:/board/list";

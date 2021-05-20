@@ -60,6 +60,9 @@
 
                     <form id="operForm" action="/board/modify" method="get">
                         <input type="hidden" id="board_no" name="board_no" value='<c:out value="${board.board_no}"/>'>
+                        <input type="hidden" id="currentPageNo" name="currentPageNo" value='<c:out value="${params.currentPageNo}"/>'>
+                        <input type="hidden" id="recordsPerPage" name="recordsPerPage" value='<c:out value="${params.recordsPerPage}"/>'>
+                        <input type="hidden" id="pageSize" name="pageSize" value='<c:out value="${params.pageSize}"/>'>
                     </form>
                 </div>
             </div>
@@ -80,7 +83,7 @@
 
         $("button[data-oper='list']").on("click", function (e) {
             operForm.find("#board_no").remove();
-            operForm.attr("action", "/board/list${params.makeQueryString(page)}");
+            operForm.attr("action", "/board/list");
             operForm.submit();
         });
     });
