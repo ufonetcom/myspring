@@ -13,12 +13,47 @@
         <!-- DataTales Example -->
         <div class="card shadow mb-4" >
             <div class="card-header py-3" style="display: flex; justify-content: space-between">
+                <div class="input-group">
                 <h6 style="padding-top: 10px;" class=" font-weight-bold text-primary">Board List Page</h6>
-                <div class="input-group" id="search">
-
                 </div>
-                <input type="text" >
+                <div class="input-group" id="adv-search">
+                    <input type="search" id="mainSearchKeyword" class="form-control" value="${board.searchKeyword}" placeholder="키워드를 입력해주세요.">
+                    <div class="input-group-btn">
+                        <div class="btn-group" role="group">
+                            <div class="dropdown dropdown-lg">
+                                <button type="button" class="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-expanded="false"><span class="caret"></span></button>
+                                <div class="dropdown-menu dropdown-menu-right" role="menu">
+                                    <!--/* 검색 form */-->
+                                    <form id="searchForm" action="/board/list" method="get" class="form-horizontal" role="form">
+                                        <!-- /* 현재 페이지 번호, 페이지당 출력할 데이터 개수, 페이지 하단에 출력할 페이지 개수 Hidden 파라미터 */ -->
+                                        <input type="hidden" name="currentPageNo" value="1" />
+                                        <input type="hidden" name="recordsPerPage" value="${board.recordsPerPage}" />
+                                        <input type="hidden" name="pageSize" value="${board.pageSize}" />
+
+                                        <div class="form-group">
+                                            <label>검색 유형</label>
+                                            <select name="searchType" class="form-control">
+                                                <option value="TWC"<c:out value="${board.searchType eq 'TWC' ? 'selected':''}"/>>전체</option>
+                                                <option value="T"<c:out value="${board.searchType eq 'T' ? 'selected':''}"/>>제목</option>
+                                                <option value="C"<c:out value="${board.searchType eq 'C' ? 'selected':''}"/>>내용</option>
+                                                <option value="W"<c:out value="${board.searchType eq 'W' ? 'selected':''}"/>>작성자</option>
+                                            </select>
+                                        </div>
+                                        <div class="form-group">
+                                            <label>키워드</label>
+                                            <input type="search" name="searchKeyword" class="form-control" id="dropSearchInput" value="${board.searchKeyword}" />
+                                        </div>
+                                        <button type="submit" class="btn btn-primary" id="dropSearchButton"><span class="glyphicon glyphicon-search" aria-hidden="true"></span></button>
+                                    </form>
+                                </div>
+                            </div>
+                            <button style="width: 35px;" type="button" class="btn btn-primary" id="mainSearchButton"><span class="glyphicon glyphicon-search" aria-hidden="true">검색</span></button>
+                        </div>
+                    </div>
+                </div>
+                <div>
                 <button  id='regBtn' type="button" class="btn btn-outline-info pull-right">Register</button>
+                </div>
             </div>
             <div class="card-body">
                 <div class="table-responsive">
@@ -121,12 +156,6 @@
     <!-- /.container-fluid -->
     <script type="text/javascript">
 
-        /*function fn_go_page(num) {
-            // console.log("pageNo" + pageNo);
-
-            <%--self.location.href = "/board/list${board.makeQueryString(pageNo)}";--%>
-            self.location.href = "/board/list"+num;
-        }*/
 
         $(document).ready(function () {
             let result = '<c:out value="${result}"/>';
@@ -151,6 +180,33 @@
                 $("#myModal").modal("show");
 
             }
+
+
+            let dropSearchKeyword = $("#searchForm");
+
+            /** 드롭다운이 아닌 메인검색 키워드로 검색했을 때*/
+            $("#mainSearchButton").on("click", function (){
+                let searchKeyword = $("#mainSearchKeyword");
+                console.log(searchKeyword);
+
+                if(searchKeyword.val() === null){
+                    $(".modal-body").html("키워드를 입력해주세요.");
+                    searchKeyword.focus();
+                    return false;
+                }
+                dropSearchKeyword.find("input[name='searchKeyword'").val(searchKeyword.val());
+                dropSearchKeyword.submit();
+            });
+
+            $("#dropSearchButton").on("click", function (){
+                console.log(dropSearchKeyword);
+                if(!dropSearchKeyword.find("input[name='searchKeyword'").val()){
+                    $(".modal-body").html("키워드를 입력해주세요.");
+                    $("dropSearchInput").focus();
+                    return false;
+                }
+                dropSearchKeyword.submit();
+            });
 
 
             $("#regBtn").on("click", function (){
