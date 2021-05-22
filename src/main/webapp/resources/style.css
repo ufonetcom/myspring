@@ -28,8 +28,9 @@
 
 @media screen and (min-width: 768px) {
     #adv-search {
-        width: 500px;
+        width:750px;
         margin: 0 auto;
+        margin-right: 80px;
     }
     .dropdown.dropdown-lg {
         position: static !important;

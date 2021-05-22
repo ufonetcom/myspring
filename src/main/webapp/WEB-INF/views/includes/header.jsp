@@ -33,7 +33,7 @@
     <!-- Custom styles for this page -->
     <link href="/resources/vendor/datatables/dataTables.bootstrap4.min.css" rel="stylesheet">
 
-    <link href="/resources/style.css" rel="stylesheet">
+    <link href="/resources/style.css?after" rel="stylesheet">
 
 </head>
 

@@ -63,6 +63,8 @@
                         <input type="hidden" id="currentPageNo" name="currentPageNo" value='<c:out value="${params.currentPageNo}"/>'>
                         <input type="hidden" id="recordsPerPage" name="recordsPerPage" value='<c:out value="${params.recordsPerPage}"/>'>
                         <input type="hidden" id="pageSize" name="pageSize" value='<c:out value="${params.pageSize}"/>'>
+                        <input type="hidden" id="searchType" name="searchType" value='<c:out value="${params.searchType}"/>'>
+                        <input type="hidden" id="searchKeyword" name="searchKeyword" value='<c:out value="${params.searchKeyword}"/>'>
                     </form>
                 </div>
             </div>

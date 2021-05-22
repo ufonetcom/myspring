@@ -9,6 +9,27 @@
         board_no, title, content, writer, regdate, updatedate, deletedate, viewcnt, delete_yn, notice_yn, secret_yn
     </sql>
 
+    <sql id="search">
+        <if test="searchKeyword != null and searchKeyword != ''">
+                <if test="searchType == 'T'.toString()">
+                    AND title LIKE CONCAT('%', #{searchKeyword}, '%')
+                </if>
+                <if test="searchType == 'C'.toString()">
+                    AND content LIKE CONCAT('%', #{searchKeyword}, '%')
+                </if>
+                <if test="searchType == 'W'.toString()">
+                    AND writer LIKE CONCAT('%', #{searchKeyword}, '%')
+                </if>
+                <if test="searchType == 'TCW'.toString()">
+                    AND (
+                    title LIKE CONCAT('%', #{searchKeyword}, '%')
+                    OR content LIKE CONCAT('%', #{searchKeyword}, '%')
+                    OR writer LIKE CONCAT('%', #{searchKeyword}, '%')
+                    )
+                </if>
+        </if>
+    </sql>
+
     <!-- BoardVo regdate type이 String이고 jsp에서 format을 안썻을때 ,, 오늘 게시글 등록은 시간별 출력, 그게 아니면 날짜 출력 쿼리
     <select id="getList" resultType="com.doom.domain.BoardVO">
         <![CDATA[
@@ -28,14 +49,12 @@
     </select>-->
 
     <select id="getList" parameterType="com.doom.domain.BoardVO" resultType="com.doom.domain.BoardVO">
-        <![CDATA[
-            select *
+            select <include refid="boardColumns"/>
             from tbl_board
-            where board_no > 0 and delete_yn = 'N'
+            where delete_yn = 'N'
+            <include refid="search"/>
             order by board_no desc, regdate desc
-        ]]>
             limit #{pagination.firstRecordIndex}, #{recordsPerPage}
-
     </select>
 
 
@@ -64,6 +83,7 @@
         select COUNT(*)
         from tbl_board
         where delete_yn = 'N'
+        <include refid="search"/>
     </select>
 
 <!--  delete쿼리문 대신 update를 사용하여 삭제여부 컬럼에 변화를 주어 관리자에서 삭제여부도 확인 할 수 있게 구현.-->

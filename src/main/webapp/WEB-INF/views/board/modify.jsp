@@ -19,6 +19,8 @@
             <form role="form" action="/board/modify" method="post">
 <%--                hidden값에 나머지 recordsPerPage와 pageSize 값은 현재로써는 동적이지 않으므로 view단에서는 crrentPageNo만 넘긴다.--%>
                 <input type="hidden" id="currentPageNo" name="currentPageNo" value='<c:out value="${params.currentPageNo}"/>'>
+                <input type="hidden" id="searchType" name="searchType" value='<c:out value="${params.searchType}"/>'>
+                <input type="hidden" id="searchKeyword" name="searchKeyword" value='<c:out value="${params.searchKeyword}"/>'>
                 <div class="form-group">
                     <div class="col-sm-8 mb-5">
                         <label>글 번호</label>
@@ -99,6 +101,8 @@
                 //move to list 현재는 a태그를 사용하여 데이터를 전송하기 때문에 실제로 이 else if list는 호출되지 않는다.
                 //currentPageNoTag는 list를 클릭하였을때 필요한 정보인 currentPageNo 이외에 다른 폼정보가 넘어가는걸 방지하기 위해서 clone()에 보내고싶은 정보만 저장한다.
                 formObj.attr("action","/board/list").attr("method","get");
+                let currentPageNoTag = $("input[name='currentPageNo']").clone();
+                let currentPageNoTag = $("input[name='currentPageNo']").clone();
                 let currentPageNoTag = $("input[name='currentPageNo']").clone();
                 formObj.empty();
                 formObj.append(currentPageNoTag);
