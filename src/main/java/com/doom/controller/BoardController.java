@@ -59,9 +59,12 @@ public class BoardController {
         log.info("pageNo!!! : {}", boardVO.getCurrentPageNo());
         boolean modify_TF = boardService.modify(boardVO);
         if (modify_TF) {
+            //수정과 삭제 post는 makeQueryString함수를 호출하게되면 더 깔끔해 질 수 있다.
             rttr.addAttribute("currentPageNo", boardVO.getCurrentPageNo());
             rttr.addAttribute("recordsPerPage", boardVO.getRecordsPerPage());
             rttr.addAttribute("pageSize", boardVO.getPageSize());
+            rttr.addAttribute("searchType", boardVO.getSearchType());
+            rttr.addAttribute("searchKeyword", boardVO.getSearchKeyword());
 
             rttr.addFlashAttribute("result", "modify-success");
         }
@@ -76,6 +79,8 @@ public class BoardController {
             rttr.addAttribute("currentPageNo", boardVO.getCurrentPageNo());
             rttr.addAttribute("recordsPerPage", boardVO.getRecordsPerPage());
             rttr.addAttribute("pageSize", boardVO.getPageSize());
+            rttr.addAttribute("searchType", boardVO.getSearchType());
+            rttr.addAttribute("searchKeyword", boardVO.getSearchKeyword());
 
             rttr.addFlashAttribute("result", "delete-success");
         }

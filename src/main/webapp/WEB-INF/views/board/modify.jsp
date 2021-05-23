@@ -102,10 +102,12 @@
                 //currentPageNoTag는 list를 클릭하였을때 필요한 정보인 currentPageNo 이외에 다른 폼정보가 넘어가는걸 방지하기 위해서 clone()에 보내고싶은 정보만 저장한다.
                 formObj.attr("action","/board/list").attr("method","get");
                 let currentPageNoTag = $("input[name='currentPageNo']").clone();
-                let currentPageNoTag = $("input[name='currentPageNo']").clone();
-                let currentPageNoTag = $("input[name='currentPageNo']").clone();
+                let searchType = $("input[name='searchType']").clone();
+                let searchKeyword = $("input[name='searchKeyword']").clone();
                 formObj.empty();
                 formObj.append(currentPageNoTag);
+                formObj.append(searchType);
+                formObj.append(searchKeyword);
             }
             formObj.submit();
         });
