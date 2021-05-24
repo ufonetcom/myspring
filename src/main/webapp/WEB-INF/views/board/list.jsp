@@ -47,7 +47,7 @@
                                     </form>
                                 </div>
                             </div>
-                            <button style="width: 40px; background-color: #1c294e" type="button" class="btn btn-primary" id="mainSearchButton"><span class="fas fa-search fa-sm" aria-hidden="true"></span></button>
+                            <button style="width: 40px; border-color: #1c294e; background-color: #1c294e" type="button" class="btn btn-primary" id="mainSearchButton"><span class="fas fa-search fa-sm" aria-hidden="true"></span></button>
                         </div>
                     </div>
                 </div>
@@ -209,6 +209,18 @@
                 // e.preventDefault();
                 dropSearchKeyword.submit();
             });
+
+            /** 드롭다운이 아닌 메인검색 enter키로 검색*/
+            $("#mainSearchKeyword").keydown(function (key){
+                if (key.keyCode == 13) {
+                    $("#mainSearchButton").click();
+                }
+            })
+            $("#dropSearchInput").keydown(function (key){
+                if (key.keyCode == 13) {
+                    $("#dropSearchButton").click();
+                }
+            })
 
 
             $("#regBtn").on("click", function (){

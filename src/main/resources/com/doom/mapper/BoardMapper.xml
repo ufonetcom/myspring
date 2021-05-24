@@ -53,14 +53,14 @@
             from tbl_board
             where delete_yn = 'N'
             <include refid="search"/>
-            order by board_no desc, regdate desc
+            order by notice_yn asc, board_no desc, regdate desc
             limit #{pagination.firstRecordIndex}, #{recordsPerPage}
     </select>
 
 
     <insert id="insertBoard">
-        insert into tbl_board(title, content, writer)
-        values (#{title}, #{content}, #{writer})
+        insert into tbl_board(title, content, writer, notice_yn, secret_yn)
+        values (#{title}, #{content}, #{writer}, IFNULL(#{notice_yn},'N'), IFNULL(#{secret_yn},'N'))
     </insert>
 
     <insert id="insertBoardSelectKey">
@@ -98,6 +98,8 @@
         set title=#{title},
             content=#{content},
             writer=#{writer},
+            notice_yn=IFNULL(#{notice_yn},'N'),
+            secret_yn=IFNULL(#{secret_yn},'N'),
             updatedate=now()
         where board_no=#{board_no}
     </update>
