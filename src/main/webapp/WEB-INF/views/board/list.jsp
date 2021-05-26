@@ -59,11 +59,11 @@
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                         <tr>
-                            <th>번호</th>
-                            <th>제목</th>
+                            <th>말머리</th>
+                            <th style="text-align: center">제목</th>
                             <th>작성자</th>
-                            <th>작성일</th>
-                            <th style="text-align: center">조회수</th>
+                            <th style="text-align: center">작성일</th>
+                            <th style="text-align: center">조회</th>
                         </tr>
                         </thead>
                         <c:set var="today" value="<%=new java.util.Date()%>"/>
@@ -73,19 +73,19 @@
                             <c:set var="regtoday"><fmt:formatDate value="${list.regdate}" pattern="yyyy-MM-dd"/></c:set>
                             <tr>
                                 <c:if test="${list.notice_yn eq 'Y'}">
-                                    <td style="color: #be2617"><c:out value="공지글"/></td>
+                                    <td style="color: #be2617; width: 90px;"><c:out value="공지글"/></td>
                                 </c:if>
                                 <c:if test="${list.notice_yn eq 'N'}">
                                     <td><c:out value="${list.board_no}"/></td>
                                 </c:if>
                                 <td><a href="/board/getDetail${board.makeQueryString(board.currentPageNo)}&board_no=${list.board_no}"><c:out value="${list.title}"/></a></td>
-                                <td><c:out value="${list.writer}"/></td>
+                                <td style="width: 170px;"><c:out value="${list.writer}"/></td>
                                 <c:choose>
                                     <c:when test="${date eq regtoday}">
-                                        <td><fmt:formatDate value="${list.regdate}" pattern="HH:mm:ss"/></td>
+                                        <td style="text-align: center"><fmt:formatDate value="${list.regdate}" pattern="HH:mm"/></td>
                                     </c:when>
                                     <c:otherwise>
-                                        <td style="width: 140px"><c:out value="${regtoday}"/></td>
+                                        <td style="width: 140px; text-align: center"><c:out value="${regtoday}"/></td>
                                     </c:otherwise>
                                 </c:choose>
                                 <td style="width: 80px; text-align: center"><c:out value="${list.viewcnt}"/></td>
