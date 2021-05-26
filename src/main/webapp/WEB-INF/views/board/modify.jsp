@@ -22,6 +22,16 @@
                 <input type="hidden" id="searchType" name="searchType" value='<c:out value="${params.searchType}"/>'>
                 <input type="hidden" id="searchKeyword" name="searchKeyword" value='<c:out value="${params.searchKeyword}"/>'>
                 <div class="form-group">
+                    <div class="form-check">
+                        <label>공지글
+                            <input type="checkbox" name="notice_yn" id="notice_yn" value="${board.notice_yn}">
+                        </label>
+                    </div>
+                    <div class="form-check">
+                        <label>비밀글
+                            <input type="checkbox" name="secret_yn" id="secret_yn" value="${board.secret_yn}">
+                        </label>
+                    </div>
                     <div class="col-sm-8 mb-5">
                         <label>글 번호</label>
                         <input class="form-control" name="board_no" value='<c:out value="${board.board_no}"/>' readonly="readonly">
@@ -87,6 +97,13 @@
 <script type="text/javascript">
     $(document).ready(function () {
         let formObj = $("form");
+
+        if(formObj.find("input[name='notice_yn']").val() === 'Y'){
+            $("#notice_yn").prop("checked", true);
+        }
+        if (formObj.find("input[name='secret_yn'").val() === 'Y'){
+            $("#secret_yn").prop("checked", true);
+        }
 
         $('button').on("click", function(e){
             e.preventDefault(); //form태그의 모든 버튼은 기본적으로 submit으로 처리하기때문에 기본동작을 막고 연산 처리.

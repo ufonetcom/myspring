@@ -60,16 +60,15 @@
 
     <insert id="insertBoard">
         insert into tbl_board(title, content, writer, notice_yn, secret_yn)
-        values (#{title}, #{content}, #{writer}, IFNULL(#{notice_yn},'N'), IFNULL(#{secret_yn},'N'))
+        values (#{title}, #{content}, #{writer}, #{notice_yn}, #{secret-yn})
     </insert>
 
-    <insert id="insertBoardSelectKey">
+    <insert id="insertBoardSelectKey" parameterType="com.doom.domain.BoardVO">
         <selectKey keyProperty="board_no" order="AFTER" resultType="long">
             select LAST_INSERT_ID()
         </selectKey>
-
-        insert into tbl_board(title, content, writer)
-        values (#{title}, #{content}, #{writer});
+        insert into tbl_board(title, content, writer, notice_yn, secret_yn)
+        values (#{title}, #{content}, #{writer}, IFNULL(#{notice_yn},'N'), IFNULL(#{secret_yn},'N'))
     </insert>
 
     <select id="readBoard" resultType="com.doom.domain.BoardVO">

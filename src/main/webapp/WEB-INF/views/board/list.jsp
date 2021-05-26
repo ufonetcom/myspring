@@ -7,8 +7,7 @@
     <div class="container-fluid">
 
         <!-- Page Heading -->
-        <h1 class="h3 mb-2 text-gray-800">Tables</h1>
-        <p class="mb-4">게시판 테이블</p>
+        <h1 class="h3 mb-2 text-gray-800">Board</h1>
 
         <!-- DataTales Example -->
         <div class="card shadow mb-4" >
@@ -52,7 +51,7 @@
                     </div>
                 </div>
                 <div>
-                <button  id='regBtn' type="button" class="btn btn-outline-info pull-right">Register</button>
+                    <button  id='regBtn' type="button" class="btn btn-outline-info pull-right">Register</button>
                 </div>
             </div>
             <div class="card-body">
@@ -64,7 +63,7 @@
                             <th>제목</th>
                             <th>작성자</th>
                             <th>작성일</th>
-                            <th>조회수</th>
+                            <th style="text-align: center">조회수</th>
                         </tr>
                         </thead>
                         <c:set var="today" value="<%=new java.util.Date()%>"/>
@@ -73,7 +72,12 @@
                         <c:forEach items="${boardList}" var="list">
                             <c:set var="regtoday"><fmt:formatDate value="${list.regdate}" pattern="yyyy-MM-dd"/></c:set>
                             <tr>
-                                <td><c:out value="${list.board_no}"/></td>
+                                <c:if test="${list.notice_yn eq 'Y'}">
+                                    <td style="color: #be2617"><c:out value="공지글"/></td>
+                                </c:if>
+                                <c:if test="${list.notice_yn eq 'N'}">
+                                    <td><c:out value="${list.board_no}"/></td>
+                                </c:if>
                                 <td><a href="/board/getDetail${board.makeQueryString(board.currentPageNo)}&board_no=${list.board_no}"><c:out value="${list.title}"/></a></td>
                                 <td><c:out value="${list.writer}"/></td>
                                 <c:choose>
@@ -81,10 +85,10 @@
                                         <td><fmt:formatDate value="${list.regdate}" pattern="HH:mm:ss"/></td>
                                     </c:when>
                                     <c:otherwise>
-                                        <td><c:out value="${regtoday}"/></td>
+                                        <td style="width: 140px"><c:out value="${regtoday}"/></td>
                                     </c:otherwise>
                                 </c:choose>
-                                <td><c:out value="${list.viewcnt}"/></td>
+                                <td style="width: 80px; text-align: center"><c:out value="${list.viewcnt}"/></td>
                             </tr>
                         </c:forEach>
                     </table>
@@ -156,7 +160,6 @@
     <!-- /.container-fluid -->
     <script type="text/javascript">
 
-
         $(document).ready(function () {
             let result = '<c:out value="${result}"/>';
             console.log(result);
@@ -178,7 +181,6 @@
                     $(".modal-body").html("게시글이 삭제되었습니다.");
                 }
                 $("#myModal").modal("show");
-
             }
 
 

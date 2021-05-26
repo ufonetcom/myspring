@@ -8,7 +8,6 @@
 
     <!-- Page Heading -->
     <h1 class="h3 mb-2 text-gray-800">Register</h1>
-    <p class="mb-4">게시글 등록</p>
 
     <!-- DataTales Example -->
     <div class="card shadow mb-4">
@@ -17,10 +16,20 @@
         </div>
         <div class="card-body">
             <form role="form" action="/board/register" method="post">
+                <div class="form-check">
+                    <label>공지글
+                    <input type="checkbox" name="notice_yn" id="notice_yn" value="Y">
+                    </label>
+                </div>
+                <div class="form-check">
+                    <label>비밀글
+                    <input type="checkbox" name="secret_yn" id="secret_yn" value="Y">
+                    </label>
+                </div>
                 <div class="form-group">
                     <div class="col-sm-8 mb-5">
                         <label>Title</label>
-                        <input type="text" class="form-control" name="title" placeholder="제목을 입력하세요.">
+                        <input type="text" class="form-control" id="title" name="title" placeholder="제목을 입력하세요." required>
                     </div>
                     <div class="col-sm-8 mb-5">
                         <label>Writer</label>
@@ -28,11 +37,11 @@
                     </div>
                     <div class="col-sm-8 mb-5">
                         <label>Text area</label>
-                        <textarea class="form-control" name="content" placeholder="내용을 입력하세요." rows="5"></textarea>
+                        <textarea class="form-control" name="content" id="content" placeholder="내용을 입력하세요." rows="5" required></textarea>
                     </div>
 
                     <div>
-                        <button type="submit" class="btn btn-success btn-icon-split">
+                        <button type="submit" class="btn btn-success btn-icon-split" id="regSubmit">
                             <span class="icon text-white-50">
                                 <i class="fas fa-check"></i>
                             </span>
@@ -53,5 +62,10 @@
 
 </div>
 <!-- /.container-fluid -->
+<script type="text/javascript">
+    $(document).ready(function (){
+        let formObj = $("form");
 
+    });
+</script>
 <%@include file="../includes/footer.jsp"%>
