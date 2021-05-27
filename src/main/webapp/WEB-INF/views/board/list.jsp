@@ -94,7 +94,7 @@
                     </table>
 
                     <!-- Paging[s] -->
-                    <div class="col-sm-12 col-md-7" style="text-align:right" >
+                    <div class="col-sm-12 col-md-7" style="margin: 0 auto; width: 500px;" >
                         <div class="dataTables_paginate paging_simple_numbers" id="dataTable_paginate">
                             <ul class="pagination">
                                 <c:if test="${board.pagination.hasPreviousPage}">
