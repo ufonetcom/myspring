@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 Mapper의 인터페이스와 동일한 이름을 주어야한다.-->
+<!-- readboard 쿼리문을 보면 board_no = #{board_no}값이 들어가게 되므로 parameterType을 작성해 줘야하지만 파라미터 타입이 오직 하나면 생략 가능하다.-->
+<mapper namespace="com.doom.mapper.ReplyMapper">
+    <sql id="replyColumns">
+        reply_no, board_no, content, writer, delete_yn, regdate
+    </sql>
+
+    <insert id="insertReply" parameterType="com.doom.domain.ReplyVO">
+        INSERT INTO tbl_reply(content, writer, delete_yn, regdate)
+        VALUES (#{content}, #{writer}, IFNULL(#{delete_yn}, 'N'), now())
+    </insert>
+
+    <select id="readReply" parameterType="com.doom.domain.ReplyVO">
+        SELECT <include refid="replyColumns"/>
+        FROM tbl_reply
+        WHERE delete_yn = 'N' AND reply_no = #{reply_no}
+    </select>
+
+    <update id="deleteReply" parameterType="long">
+        UPDATE tbl_reply
+        SET delete_yn = 'Y'
+        WHERE reply_no = #{reply_no}
+    </update>
+
+    <select id="getReplyList" parameterType="com.doom.domain.ReplyVO" resultType="com.doom.domain.ReplyVO">
+        SELECT <include refid="replyColumns"/>
+        FROM tbl_reply
+        WHERE delete_yn = 'N' and board_no = #{board_no}
+        ORDER BY reply_no DESC, regdate DESC 
+    </select>
+    
+    <select id="readReplyTotalCount" parameterType="com.doom.domain.ReplyVO" resultType="int">
+        SELECT count(*)
+        FROM tbl_reply
+        WHERE delete_yn='N' AND board_no = #{board_no}
+    </select>
+
+
+
+</mapper>
