@@ -9,8 +9,8 @@
     </sql>
 
     <insert id="insertReply" parameterType="com.doom.domain.ReplyVO">
-        INSERT INTO tbl_reply(content, writer, delete_yn, regdate)
-        VALUES (#{content}, #{writer}, IFNULL(#{delete_yn}, 'N'), now())
+        INSERT INTO tbl_reply(board_no, content, writer, regdate)
+        VALUES (#{board_no}, #{content}, #{writer}, now())
     </insert>
 
     <select id="readReply" parameterType="com.doom.domain.ReplyVO">
