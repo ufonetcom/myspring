@@ -35,6 +35,14 @@ public class ReplyServiceTests {
 
     @Test
     public void testDelete() {
+        replyService.remove((long) 18);
+        testGetReplyList();
+    }
 
+    @Test
+    public void testGetReplyList() {
+        ReplyVO replyVO = new ReplyVO();
+        replyVO.setBoard_no((long) 386);
+        replyService.getReplyList(replyVO);
     }
 }
