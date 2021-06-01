@@ -66,6 +66,35 @@
                         <input type="hidden" id="searchType" name="searchType" value='<c:out value="${params.searchType}"/>'>
                         <input type="hidden" id="searchKeyword" name="searchKeyword" value='<c:out value="${params.searchKeyword}"/>'>
                     </form>
+
+                    <!-- Reply Form {s} -->
+
+                    <div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 30px">
+                            <div class="row">
+                                <div class="col-sm-10">
+                                    <input type="text" name="content" id="content" class="form-control" rows="3" placeholder="댓글을 입력해 주세요"></inputtextarea>
+                                </div>
+
+                                <div class="col-sm-2">
+                                    <input value="tester" name="writer" class="form-control" id="reg_id" readonly="readonly"></input>
+                                    <button type="button" class="btn btn-sm btn-success btn-circle" id="btnReplySave">
+                                        <i class="fas fa-check"></i>
+                                    </button>
+                                </div>
+
+                            </div>
+
+                    </div>
+
+                    <!-- Reply Form {e} -->
+
+                    <!-- Reply List {s}-->
+                    <div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 10px">
+                        <h6 class="border-bottom pb-2 mb-0">Reply list</h6>
+                        <div id="replyList"></div>
+                    </div>
+                    <!-- Reply List {e}-->
+
                 </div>
             </div>
         </div>
