@@ -70,24 +70,23 @@
                     <!-- Reply Form {s} -->
 
                     <div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 30px">
-                            <div class="row">
-                                <div class="writer-area col-sm-2">
-                                    <input value="ufozx" name="writer" class="form-control" id="reg_id" readonly="readonly"></input>
-                                </div>
-                                <div class="col-sm-10">
-                                    <textarea name="content" id="content" class="form-control" rows="3" placeholder="댓글을 입력해 주세요"></textarea>
-                                </div>
-
-                                <div class="col-sm-2">
-                                    <button type="button" class="btn btn-success btn-icon-split" id="btnReplySave">
-                                        <span class="icon text-white-50">
-                                            <i class="fas fa-check"></i>
-                                        </span>
-                                        <span class="text">등록</span>
-                                    </button>
-                                </div>
+                        <div class="row">
+                            <div class="writer-area col-sm-2">
+                                <input value="ufozx" name="writer" class="form-control" id="writer" readonly="readonly"></input>
+                            </div>
+                            <div class="col-sm-10">
+                                <textarea name="content" id="content" class="form-control" rows="3" placeholder="댓글을 입력해 주세요"></textarea>
                             </div>
 
+                            <div class="col-sm-2">
+                                <button type="button" class="btn btn-success btn-icon-split" id="btnReplySave">
+                                    <span class="icon text-white-50">
+                                        <i class="fas fa-check"></i>
+                                    </span>
+                                    <span class="text">등록</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
 
                     <!-- Reply Form {e} -->
@@ -125,7 +124,8 @@
         });
 
         function printReplyList(){
-
+            console.log("댓글리스트 호출");
+            let dataObject = new Date();
             let url = "/replies/" + ${board.board_no};
             let paramData = {"board_no" : "${board.board_no}"};
             $.ajax({
@@ -139,34 +139,26 @@
                     if(result.length<1){
                         htmls.push("등록된 댓글이 없습니다!!");
                     }else{
+                        console.log(result);
                         $(result).each(function (){
-                            htmls += '<div class="media text-muted pt-3" id="rid' + this.rid + '">';
+                            console.log("list value")
+                            htmls += '<div class="media text-muted pt-3" id="rid' + this.reply_no + '">';
 
-                            htmls += '<svg class="bd-placeholder-img mr-2 rounded" width="32" height="32" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder:32x32">';
-
-                            htmls += '<title>Placeholder</title>';
-
-                            htmls += '<rect width="100%" height="100%" fill="#007bff"></rect>';
-
-                            htmls += '<text x="50%" fill="#007bff" dy=".3em">32x32</text>';
-
-                            htmls += '</svg>';
-
-                            htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom horder-gray">';
+                            htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom">';
 
                             htmls += '<span class="d-block">';
 
-                            htmls += '<strong class="text-gray-dark">' + this.reg_id + '</strong>';
+                            htmls += '<strong class="text-gray-dark">' + this.writer + '</strong>';
 
                             htmls += '<span style="padding-left: 7px; font-size: 9pt">';
 
-                            htmls += '<a href="javascript:void(0)" onclick="fn_editReply(' + ${params.reply_no} + ', \'' + this.reg_id + '\', \'' + this.content + '\' )" style="padding-right:5px">수정</a>';
-
-                            htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + this.rid + ')" >삭제</a>';
+                            htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + this.reply_no + ')" >삭제</a>';
 
                             htmls += '</span>';
 
                             htmls += '</span>';
+
+                            htmls += displayTime(this.regdate) + '<br><br>';
 
                             htmls += this.content;
 
@@ -174,17 +166,69 @@
 
                             htmls += '</div>';
 
-
-
                         });	//each end
 
-                    }
+                    } //else end
                     $("#replyList").html(htmls);
 
                 }
-            });
+            }); //ajax end
+        } //pringReplyList end
 
-        }
+        $("#btnReplySave").on("click",function (){
+            let replyContent = $("textarea#content").val();
+            let replyWriter = $("#writer").val();
+            let url = "/replies/new"
+            let paramData = JSON.stringify({"content":replyContent,"writer":replyWriter,"board_no":"${board.board_no}"});
+
+            if(replyContent === ''){
+                alert("댓글 내용을 입력하지 않았습니다.");
+                $("textarea#content").focus();
+                return false;
+            }
+            $.ajax({
+                type: 'post',
+                url: url,
+                contentType: 'application/json',
+                dataType: 'text',
+                data: paramData,
+                success: function (result) {
+                    if (result === "regSuccess") {
+                        console.log("댓글 등록 성공!");
+
+                        printReplyList();
+
+                        $("textarea#content").val('');
+                    }
+                }
+                ,error: function (error){
+                    if(error === "regFail"){
+                        console.log("댓글 에러....");
+                        alert("ReplyC Error...");
+                    }
+                }
+
+            })
+        })
+
+        function displayTime(timeValue) {
+            let today = new Date();
+            let gap = today.getTime() - timeValue;
+            let dateObj = new Date(timeValue);
+            let str= "";
+
+            if(gap < (1000*60*60*24)) {
+                let hh = dateObj.getHours();
+                let mi = dateObj.getMinutes();
+                let ss = dateObj.getSeconds();
+                return [(hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':', (ss>9? '':'0') + ss].join('');
+            } else {
+                let yy = dateObj.getFullYear();
+                let mm = dateObj.getMonth() + 1; //getMonth는 zero-based
+                let dd = dateObj.getDate();
+                return [yy, '/', (mm>9 ? '': '0') + mm, '/', (dd>9? '':'0') + dd].join('');
+            }
+        };
     });
 </script>
 

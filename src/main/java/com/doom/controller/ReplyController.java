@@ -22,5 +22,10 @@ public class ReplyController {
         return replyService.getReplyList(params);
     }
 
-
+    @PostMapping("/new")
+    public String register(@RequestBody ReplyVO params) {
+        boolean registerTF = replyService.register(params);
+        log.info("컨트롤러 등록 tf : {}", registerTF);
+        return (registerTF == true ? "regSuccess" : "regFail");
+    }
 }
