@@ -106,6 +106,101 @@
 </div>
 <!-- /.container-fluid -->
 <script type="text/javascript">
+    function deleteReply(replyNo) {
+        let url = "/replies/" + replyNo;
+        if (!confirm("정말로 삭제하시겠습니까?")) {
+            return false;
+        }
+        $.ajax({
+            type: 'delete',
+            url: url,
+            dataType: 'text',
+            contentType: 'json',
+            success: function (result) {
+                if (result === "delSuccess") {
+                    console.log("댓글 삭제 성공!");
+                    printReplyList();
+                }else if (result === "delFail") {
+                    console.log("삭제 에러 발생");
+                    alert("에러 발생");
+                }
+            }
+        });
+    }
+
+    function printReplyList(){
+        console.log("댓글리스트 호출");
+        let dataObject = new Date();
+        let url = "/replies/" + ${board.board_no};
+        let paramData = {"board_no" : "${board.board_no}"};
+        $.ajax({
+            type: 'get',
+            url: url,
+            data: paramData,
+            dataType: 'json',
+            success: function (result) {
+                console.log("조회 진입 성공!!");
+                let htmls = "";
+                if(result.length<1){
+                    htmls.push("등록된 댓글이 없습니다!!");
+                }else{
+                    console.log(result);
+                    $(result).each(function (){
+                        console.log("list value")
+                        htmls += '<div class="media text-muted pt-3" id="rid' + this.reply_no + '">';
+
+                        htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom">';
+
+                        htmls += '<span style="padding-bottom: 20px" class="d-block">';
+
+                        htmls += '<strong style="padding-right: 10px" class="text-gray-dark">' + this.writer + '</strong>';
+
+                        htmls += displayTime(this.regdate);
+
+                        htmls += '<span style="padding-left: 960px; font-size: 9pt">';
+
+                        htmls += '<a href="javascript:void(0)" class="btn btn-danger btn-circle btn-sm" onclick="deleteReply('+this.reply_no+')">';
+                        htmls += '<i class="fas fa-trash">';
+                        htmls += '</i>';
+                        htmls += '</a>';
+
+                        htmls += '</span>';
+
+                        htmls += '</span>';
+
+                        htmls += this.content;
+
+                        htmls += '</p>';
+
+                        htmls += '</div>';
+
+                    });	//each end
+
+                } //else end
+                $("#replyList").html(htmls);
+
+            }
+        }); //ajax end
+    } //pringReplyList end
+
+    function displayTime(timeValue) {
+        let today = new Date();
+        let gap = today.getTime() - timeValue;
+        let dateObj = new Date(timeValue);
+        let str= "";
+
+        if(gap < (1000*60*60*24)) {
+            let hh = dateObj.getHours();
+            let mi = dateObj.getMinutes();
+            let ss = dateObj.getSeconds();
+            return [(hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':', (ss>9? '':'0') + ss].join('');
+        } else {
+            let yy = dateObj.getFullYear();
+            let mm = dateObj.getMonth() + 1; //getMonth는 zero-based
+            let dd = dateObj.getDate();
+            return [yy, '/', (mm>9 ? '': '0') + mm, '/', (dd>9? '':'0') + dd].join('');
+        }
+    };
 
 
     $(document).ready(function () {
@@ -123,61 +218,6 @@
             operForm.submit();
         });
 
-
-        function printReplyList(){
-            console.log("댓글리스트 호출");
-            let dataObject = new Date();
-            let url = "/replies/" + ${board.board_no};
-            let paramData = {"board_no" : "${board.board_no}"};
-            $.ajax({
-                type: 'get',
-                url: url,
-                data: paramData,
-                dataType: 'json',
-                success: function (result) {
-                    console.log("조회 진입 성공!!");
-                    let htmls = "";
-                    if(result.length<1){
-                        htmls.push("등록된 댓글이 없습니다!!");
-                    }else{
-                        console.log(result);
-                        $(result).each(function (){
-                            console.log("list value")
-                            htmls += '<div class="media text-muted pt-3" id="rid' + this.reply_no + '">';
-
-                            htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom">';
-
-                            htmls += '<span class="d-block">';
-
-                            htmls += '<strong class="text-gray-dark">' + this.writer + '</strong>';
-
-                            htmls += '<span style="padding-left: 7px; font-size: 9pt">';
-
-                            htmls += '<a href="javascript:void(0)" class="btn btn-danger btn-circle btn-sm" onclick="deleteReply('+this.reply_no+')">';
-                            htmls += '<i class="fas fa-trash">';
-                            htmls += '</i>';
-                            htmls += '</a>';
-
-                            htmls += '</span>';
-
-                            htmls += '</span>';
-
-                            htmls += displayTime(this.regdate) + '<br><br>';
-
-                            htmls += this.content;
-
-                            htmls += '</p>';
-
-                            htmls += '</div>';
-
-                        });	//each end
-
-                    } //else end
-                    $("#replyList").html(htmls);
-
-                }
-            }); //ajax end
-        } //pringReplyList end
 
         $("#btnReplySave").on("click",function (){
             let replyContent = $("textarea#content").val();
@@ -215,47 +255,7 @@
             }); //ajax End
         }); //댓글등록 함수 End
 
-        function deleteReply(replyNo) {
-            let url = "/replies/" + replyNo;
-            if (!confirm("정말로 삭제하시겠습니까?")) {
-                return false;
-            }
-            $.ajax({
-                type: 'delete',
-                url: url,
-                dataType: 'text',
-                contentType: 'json',
-                success: function (result) {
-                    if (result === "delSuccess") {
-                        console.log("댓글 삭제 성공!");
-                        printReplyList();
-                    }else if (result === "delFail") {
-                        console.log("삭제 에러 발생");
-                        alert("에러 발생");
-                    }
-                }
-            });
-        }
-
-        function displayTime(timeValue) {
-            let today = new Date();
-            let gap = today.getTime() - timeValue;
-            let dateObj = new Date(timeValue);
-            let str= "";
-
-            if(gap < (1000*60*60*24)) {
-                let hh = dateObj.getHours();
-                let mi = dateObj.getMinutes();
-                let ss = dateObj.getSeconds();
-                return [(hh > 9 ? '' : '0') + hh, ':', (mi > 9 ? '' : '0') + mi, ':', (ss>9? '':'0') + ss].join('');
-            } else {
-                let yy = dateObj.getFullYear();
-                let mm = dateObj.getMonth() + 1; //getMonth는 zero-based
-                let dd = dateObj.getDate();
-                return [yy, '/', (mm>9 ? '': '0') + mm, '/', (dd>9? '':'0') + dd].join('');
-            }
-        };
-    });
+    }); //document ready End
 
 </script>
 

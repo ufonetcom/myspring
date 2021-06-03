@@ -78,7 +78,13 @@
                                 <c:if test="${list.notice_yn eq 'N'}">
                                     <td><c:out value="${list.board_no}"/></td>
                                 </c:if>
-                                <td><a href="/board/getDetail${board.makeQueryString(board.currentPageNo)}&board_no=${list.board_no}"><c:out value="${list.title}"/></a></td>
+                                <td>
+                                    <a href="/board/getDetail${board.makeQueryString(board.currentPageNo)}&board_no=${list.board_no}"><c:out value="${list.title}"/>
+                                        <c:if test="${list.replycnt > 0}">
+                                            <span style="color: #2d2e33; font-size: small">[<c:out value="${list.replycnt}"/>]</span>
+                                        </c:if>
+                                    </a>
+                                </td>
                                 <td style="width: 170px;"><c:out value="${list.writer}"/></td>
                                 <c:choose>
                                     <c:when test="${date eq regtoday}">

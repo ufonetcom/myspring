@@ -6,7 +6,7 @@
 <mapper namespace="com.doom.mapper.BoardMapper">
 
     <sql id="boardColumns">
-        board_no, title, content, writer, regdate, updatedate, deletedate, viewcnt, delete_yn, notice_yn, secret_yn
+        board_no, title, content, writer, regdate, updatedate, deletedate, viewcnt, delete_yn, notice_yn, secret_yn, replycnt
     </sql>
 
     <sql id="search">
@@ -107,6 +107,12 @@
         update tbl_board
         set viewcnt = viewcnt + 1
         where board_no=#{board_no}
+    </update>
+
+    <update id="updateReplyCnt">
+        update tbl_board
+        set replycnt = replycnt + #{amount}
+        where board_no = #{board_no}
     </update>
 
 

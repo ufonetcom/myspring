@@ -3,6 +3,7 @@ package com.doom.mapper;
 import com.doom.common.Criteria;
 import com.doom.domain.BoardVO;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
@@ -25,5 +26,8 @@ public interface BoardMapper {
     public int updateBoard(BoardVO boardVO);
 
     public void updateViewCnt(Long board_no);
+
+    public void updateReplyCnt(@Param("board_no") Long board_no, @Param("amount") int amount);
+
 
 }

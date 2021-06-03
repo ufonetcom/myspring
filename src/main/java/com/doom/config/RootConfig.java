@@ -8,9 +8,12 @@ import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.datasource.DataSourceTransactionManager;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
 
+@EnableTransactionManagement
 @Configuration
 @ComponentScan(basePackages = "com.doom.service")
 @MapperScan(basePackages = {"com.doom.mapper"})
@@ -34,6 +37,11 @@ public class RootConfig {
         SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
         sqlSessionFactory.setDataSource(dataSource());
         return (SqlSessionFactory) sqlSessionFactory.getObject();
+    }
+
+    @Bean
+    public DataSourceTransactionManager txManager() {
+        return new DataSourceTransactionManager(dataSource());
     }
 
 }

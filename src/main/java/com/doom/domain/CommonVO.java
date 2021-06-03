@@ -25,6 +25,9 @@ public class CommonVO extends Criteria {
     /** 삭제 날짜와 시간*/
     private Date deletedate;
 
+    /** 댓글의 개수*/
+    private int replycnt;
+
     //날짜 포멧팅 변수에 대해서 궁금핸던점
     //mysql date type : datetime
     //spring 에서는 date type : Date(java.util.Date) , LocalDateTime, String 이 세가지가 있다.
