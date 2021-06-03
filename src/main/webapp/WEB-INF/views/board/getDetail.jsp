@@ -106,10 +106,10 @@
 </div>
 <!-- /.container-fluid -->
 <script type="text/javascript">
+
+
     $(document).ready(function () {
         let operForm = $("#operForm");
-        let page = '${params.currentPageNo}';
-        console.log("page >> "+page);
 
         printReplyList();
 
@@ -122,6 +122,7 @@
             operForm.attr("action", "/board/list");
             operForm.submit();
         });
+
 
         function printReplyList(){
             console.log("댓글리스트 호출");
@@ -152,7 +153,10 @@
 
                             htmls += '<span style="padding-left: 7px; font-size: 9pt">';
 
-                            htmls += '<a href="javascript:void(0)" onclick="fn_deleteReply(' + this.reply_no + ')" >삭제</a>';
+                            htmls += '<a href="javascript:void(0)" class="btn btn-danger btn-circle btn-sm" onclick="deleteReply('+this.reply_no+')">';
+                            htmls += '<i class="fas fa-trash">';
+                            htmls += '</i>';
+                            htmls += '</a>';
 
                             htmls += '</span>';
 
@@ -208,8 +212,30 @@
                     }
                 }
 
-            })
-        })
+            }); //ajax End
+        }); //댓글등록 함수 End
+
+        function deleteReply(replyNo) {
+            let url = "/replies/" + replyNo;
+            if (!confirm("정말로 삭제하시겠습니까?")) {
+                return false;
+            }
+            $.ajax({
+                type: 'delete',
+                url: url,
+                dataType: 'text',
+                contentType: 'json',
+                success: function (result) {
+                    if (result === "delSuccess") {
+                        console.log("댓글 삭제 성공!");
+                        printReplyList();
+                    }else if (result === "delFail") {
+                        console.log("삭제 에러 발생");
+                        alert("에러 발생");
+                    }
+                }
+            });
+        }
 
         function displayTime(timeValue) {
             let today = new Date();
@@ -230,6 +256,7 @@
             }
         };
     });
+
 </script>
 
 <%@include file="../includes/footer.jsp"%>

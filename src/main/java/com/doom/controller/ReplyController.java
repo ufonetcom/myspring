@@ -28,4 +28,10 @@ public class ReplyController {
         log.info("컨트롤러 등록 tf : {}", registerTF);
         return (registerTF == true ? "regSuccess" : "regFail");
     }
+
+    @DeleteMapping("/{reply_no}")
+    public String remove(@PathVariable("reply_no") Long reply_no) {
+        boolean deleteTF = replyService.remove(reply_no);
+        return (deleteTF == true ? "delSuccess" : "delFail");
+    }
 }
