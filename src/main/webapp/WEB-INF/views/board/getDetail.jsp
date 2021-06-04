@@ -69,16 +69,13 @@
 
                     <!-- Reply Form {s} -->
 
-                    <div class="my-3 p-3 bg-white rounded shadow-sm" style="padding-top: 30px">
+                    <div class="my-3 p-3 bg-white rounded shadow-sm" style="background-color: #f8f7fffa!important; padding-top: 30px">
                         <div class="row">
-                            <div class="writer-area col-sm-2">
-                                <input value="ufozx" name="writer" class="form-control" id="writer" readonly="readonly"></input>
-                            </div>
                             <div class="col-sm-10">
                                 <textarea name="content" id="content" class="form-control" rows="3" placeholder="댓글을 입력해 주세요"></textarea>
                             </div>
-
-                            <div class="col-sm-2">
+                            <div class="writer-area col-sm-2">
+                                <input style="margin-bottom: 10px" value="ufozx" name="writer" class="form-control" id="writer" readonly="readonly"></input>
                                 <button type="button" class="btn btn-success btn-icon-split" id="btnReplySave">
                                     <span class="icon text-white-50">
                                         <i class="fas fa-check"></i>
@@ -86,6 +83,7 @@
                                     <span class="text">등록</span>
                                 </button>
                             </div>
+                            
                         </div>
                     </div>
 
@@ -121,9 +119,11 @@
                     console.log("댓글 삭제 성공!");
                     printReplyList();
                 }else if (result === "delFail") {
-                    console.log("삭제 에러 발생");
+                    console.log("삭제 에러 발생(Database)");
                     alert("에러 발생");
                 }
+            }, error: function (error) {
+                alert("script 에러 발생")
             }
         });
     }
@@ -151,13 +151,13 @@
 
                         htmls += '<p class="media-body pb-3 mb-0 small lh-125 border-bottom">';
 
-                        htmls += '<span style="padding-bottom: 20px" class="d-block">';
+                        htmls += '<span class="d-block">';
 
                         htmls += '<strong style="padding-right: 10px" class="text-gray-dark">' + this.writer + '</strong>';
 
                         htmls += displayTime(this.regdate);
 
-                        htmls += '<span style="padding-left: 960px; font-size: 9pt">';
+                        htmls += '<span style="padding-left: 1060px; font-size: 9pt">';
 
                         htmls += '<a href="javascript:void(0)" class="btn btn-danger btn-circle btn-sm" onclick="deleteReply('+this.reply_no+')">';
                         htmls += '<i class="fas fa-trash">';
