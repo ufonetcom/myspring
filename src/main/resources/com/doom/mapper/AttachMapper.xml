@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- namespace는 Mapper의 인터페이스와 동일한 이름을 주어야한다.-->
+<mapper namespace="com.doom.mapper.AttachMapper">
+    <sql id="attachColumns">
+        file_no, board_no, original_name, save_name, size, delete_yn, regdate, deletedate
+    </sql>
+
+    <insert id="insertAttach" parameterType="list">
+        INSERT INTO tbl_attach(board_no, original_name, save_name, size, regdate)
+        VALUES
+               <foreach collection="list" item="item" separator=",">
+                    (#{board_no}, #{original_name}, #{save_name}, #{size}, now())
+               </foreach>
+    </insert>
+
+    <select id="selectAttachDetail" parameterType="int" resultType="com.doom.domain.AttachVO">
+        SELECT <include refid="attachColumns"/>
+        FROM tbl_attach
+        WHERE delete_yn = 'N' AND file_no = #{file_no}
+    </select>
+
+    <update id="deleteAttach" parameterType="long">
+        UPDATE tbl_reply
+        SET delete_yn = 'Y', deletedate = now()
+        WHERE board_no = #{board_no}
+    </update>
+
+    <select id="selectAttachList" parameterType="long" resultType="com.doom.domain.AttachVO">
+        SELECT <include refid="attachColumns"/>
+        FROM tbl_reply
+        WHERE delete_yn = 'N' AND board_no = #{board_no}
+    </select>
+    
+    <select id="readReplyTotalCount" parameterType="long" resultType="int">
+        SELECT count(*)
+        FROM tbl_attach
+        WHERE delete_yn='N' AND board_no = #{board_no}
+    </select>
+
+
+
+</mapper>
