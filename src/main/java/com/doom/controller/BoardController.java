@@ -8,6 +8,7 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
@@ -42,12 +43,13 @@ public class BoardController {
     }
 
     @PostMapping("/register")
-    public String register(BoardVO boardVO, RedirectAttributes rttr) {
-
+    public String register(BoardVO boardVO, final MultipartFile[] files, RedirectAttributes rttr) {
         log.info("register : {}", boardVO);
 
-        boardService.register(boardVO);
-
+        boolean isRegistered = boardService.register(boardVO, files);
+        if (isRegistered == false) {
+            rttr.addFlashAttribute("result", "register-fail");
+        }
         rttr.addFlashAttribute("result", boardVO.getBoard_no());
 
         return "redirect:/board/list";

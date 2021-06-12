@@ -1,27 +1,63 @@
 package com.doom.service;
 
 import com.doom.common.Pagination;
+import com.doom.domain.AttachVO;
 import com.doom.domain.BoardVO;
+import com.doom.mapper.AttachMapper;
 import com.doom.mapper.BoardMapper;
+import com.doom.util.FileUtils;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Collections;
 import java.util.List;
 
+//@AllArgsConstructor //모든인자로 만들어진 생성자 (생성자 주입 방식에 쓰인다.) 생성자 필드가 하나일 경우 @AutoWired생략 가능
 @Log4j2
 @Service
-@AllArgsConstructor //모든인자로 만들어진 생성자 (생성자 주입 방식에 쓰인다.) 생성자 필드가 하나일 경우 @AutoWired생략 가능
 public class BoardServiceImpl implements BoardService{
 
     private BoardMapper boardMapper;
+    private AttachMapper attachMapper;
+    private FileUtils fileUtils;
+
+    @Autowired
+    public BoardServiceImpl(BoardMapper boardMapper, AttachMapper attachMapper, FileUtils fileUtils) {
+        this.boardMapper = boardMapper;
+        this.attachMapper = attachMapper;
+        this.fileUtils = fileUtils;
+    }
 
     @Override
-    public void register(BoardVO boardVO) {
+    public boolean register(BoardVO boardVO) {
         log.info("register......{}",boardVO);
 
-        boardMapper.insertBoardSelectKey(boardVO);
+        int queryResult = 0;
+
+        queryResult = boardMapper.insertBoardSelectKey(boardVO);
+
+        return (queryResult == 1) ? true : false;
+    }
+
+    @Override
+    public boolean register(BoardVO boardVO, MultipartFile[] files) {
+        int queryResult = 1;
+
+        if (register(boardVO) == false) {
+            return false;
+        }
+        List<AttachVO> fileList = fileUtils.uploadFiles(files, boardVO.getBoard_no());
+        if (CollectionUtils.isEmpty(fileList) == false) {
+            queryResult = attachMapper.insertAttach(fileList);
+            if (queryResult < 1) {
+                queryResult = 0;
+            }
+        }
+        return (queryResult > 0);
     }
 
     @Override

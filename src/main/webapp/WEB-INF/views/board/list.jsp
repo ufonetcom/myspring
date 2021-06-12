@@ -185,6 +185,8 @@
                     $(".modal-body").html("게시글이 수정되었습니다.");
                 }else if(result === "delete-success"){
                     $(".modal-body").html("게시글이 삭제되었습니다.");
+                }else if(result === "register-fail"){
+                    $(".modal-body").html("게시글 등록 실패(파일첨부 오류,,)")
                 }
                 $("#myModal").modal("show");
             }

@@ -58,7 +58,8 @@
     </select>
 
 
-    <insert id="insertBoard">
+    /* 사용하지 않는 매퍼. 단 밑에 insertBoardSelectKey 쿼리의 selectKey 방법과 현재 insertBoard 쿼리의 useGeneratedKeys 방법은 동일하다.*/
+    <insert id="insertBoard" parameterType="com.doom.domain.BoardVO" useGeneratedKeys="true" keyProperty="board_no">
         insert into tbl_board(title, content, writer, notice_yn, secret_yn)
         values (#{title}, #{content}, #{writer}, #{notice_yn}, #{secret-yn})
     </insert>

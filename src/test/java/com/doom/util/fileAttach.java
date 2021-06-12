@@ -6,6 +6,7 @@ import org.junit.runner.RunWith;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import java.nio.file.Paths;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 
@@ -20,6 +21,12 @@ public class fileAttach {
     @Test
     public void dateTest() {
         log.info("오늘 날짜 테스트 : {}", today);
+    }
+
+    @Test
+    public void pathTest() {
+        String uploadPath = Paths.get("/Users","doompok","Desktop","study","upload",today).toString();
+        log.info(uploadPath);
     }
 
 }

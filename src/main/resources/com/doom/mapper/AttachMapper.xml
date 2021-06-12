@@ -11,7 +11,7 @@
         INSERT INTO tbl_attach(board_no, original_name, save_name, size, regdate)
         VALUES
                <foreach collection="list" item="item" separator=",">
-                    (#{board_no}, #{original_name}, #{save_name}, #{size}, now())
+                    (#{item.board_no}, #{item.original_name}, #{item.save_name}, #{item.size}, now())
                </foreach>
     </insert>
 

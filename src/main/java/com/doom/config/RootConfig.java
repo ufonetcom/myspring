@@ -15,7 +15,7 @@ import javax.sql.DataSource;
 
 @EnableTransactionManagement
 @Configuration
-@ComponentScan(basePackages = "com.doom.service")
+@ComponentScan(basePackages = {"com.doom.service","com.doom.util"})
 @MapperScan(basePackages = {"com.doom.mapper"})
 public class RootConfig {
 
