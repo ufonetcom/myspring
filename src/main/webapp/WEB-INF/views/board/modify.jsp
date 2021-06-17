@@ -53,11 +53,44 @@
                         <input class="form-control" name="regdate"
                                value = '<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${board.regdate}"/>' readonly="readonly">
                     </div>
-                    <%--<div class="col-sm-8 mb-5">
-                        <label>수정 날짜</label>
-                        <input class="form-control" name="updatedate"
-                               value = '<fmt:formatDate pattern="yyyy/MM/dd HH:mm" value="${board.updatedate}"/>' readonly="readonly">
-                    </div>--%>
+                    
+                    <c:if test="${empty fileList}">
+                        <div data-name="fileDiv" class="form-group filebox bs3-primary">
+                            <label for="file_0" id="filecnt" class="col-sm-2 control-label">파일 : 1/3</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="upload-name" value="파일 찾기" readonly />
+                                <label for="file_0" class="control-label">찾아보기</label>
+                                <input type="file" name="files" id="file_0" class="upload-hidden" onchange="changeFilename(this)" />
+
+                                <button type="button" onclick="addFile()" class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
+                                    <i class="fa fa-plus" aria-hidden="true"></i>
+                                </button>
+                                <button type="button" onclick="removeFile(this)" class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
+                                    <i class="fa fa-minus" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </c:if>
+                    <c:if test="${not empty fileList}">
+                        <c:forEach var="row" items="${fileList}" varStatus="status">
+                            <div data-name="fileDiv" class="form-group filebox bs3-primary">
+                                <label for="file_${status}" id="filecnt" class="col-sm-2 control-label">파일 : 1/3</label>
+                                <div class="col-sm-10">
+                                    <input type="hidden" name="file_no" value="${row.file_no}">
+                                    <input type="text" class="upload-name" value="파일 찾기" readonly />
+                                    <label for="file_0" class="control-label">찾아보기</label>
+                                    <input type="file" name="files" id="file_0" class="upload-hidden" onchange="changeFilename(this)" />
+
+                                    <button type="button" onclick="addFile()" class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
+                                        <i class="fa fa-plus" aria-hidden="true"></i>
+                                    </button>
+                                    <button type="button" onclick="removeFile(this)" class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
+                                        <i class="fa fa-minus" aria-hidden="true"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </c:forEach>
+                    </c:if>
 
                     <div>
                         <button type="submit" data-oper='modify' class="btn btn-success btn-icon-split">

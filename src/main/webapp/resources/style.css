@@ -39,6 +39,7 @@
         min-width: 500px;
     }
 
+    /** https://webdir.tistory.com/435 참고*/
 .filebox input[type="file"] {
     position: absolute;
     width: 1px;

@@ -113,6 +113,15 @@ public class BoardServiceImpl implements BoardService{
         return boardList;
     }
 
+    @Override
+    public List<AttachVO> getAttachFileList(Long board_no) {
+        int fileTotalCount = attachMapper.selectAttachTotalCount(board_no);
+        if (fileTotalCount < 1) {
+            return Collections.emptyList();
+        }
+        return attachMapper.selectAttachList(board_no);
+    }
+
     private List<BoardVO> getBoardList(BoardVO boardVO) {
         List<BoardVO> boardList = Collections.emptyList(); //예상치못한 NPE를 방지하기 위해 비어있는 list를 선언
 

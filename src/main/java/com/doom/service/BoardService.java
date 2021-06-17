@@ -1,6 +1,7 @@
 package com.doom.service;
 
 import com.doom.common.Criteria;
+import com.doom.domain.AttachVO;
 import com.doom.domain.BoardVO;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,6 +21,8 @@ public interface BoardService {
     public boolean remove(Long board_no);
 
     public List<BoardVO> getList(BoardVO boardVO);
+
+    public List<AttachVO> getAttachFileList(Long board_no);
 
 
 

@@ -1,6 +1,7 @@
 package com.doom.controller;
 
 import com.doom.common.Criteria;
+import com.doom.domain.AttachVO;
 import com.doom.domain.BoardVO;
 import com.doom.service.BoardService;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,9 @@ public class BoardController {
         log.info("/get or modify");
         BoardVO detailByBoardNo = boardService.getDetailByBoardNo(board_no);
         model.addAttribute("board", detailByBoardNo);
+
+        List<AttachVO> fileList = boardService.getAttachFileList(board_no);
+        model.addAttribute("fileList", fileList);
     }
 
     @GetMapping("/register")
