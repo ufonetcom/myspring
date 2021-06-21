@@ -142,7 +142,9 @@
                 console.log("조회 진입 성공!!");
                 let htmls = "";
                 if(result.length<1){
-                    htmls.push("등록된 댓글이 없습니다!!");
+                    htmls += '<div>';
+                    htmls += '<p>등록된 댓글이 없습니다!!</p>';
+                    htmls += '</div>';
                 }else{
                     console.log(result);
                     $(result).each(function (){

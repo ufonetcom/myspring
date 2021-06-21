@@ -4,6 +4,7 @@ import lombok.Data;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 @Data
 public class BoardVO extends CommonVO{
@@ -28,6 +29,12 @@ public class BoardVO extends CommonVO{
 
     /** 비밀글 여부(default = 'N')*/
     private String secret_yn;
+
+    /** 파일 변경 여부*/
+    private String change_yn;
+
+    /** 파일 인덱스 리스트*/
+    private List<Long> fileIdx_no;
 
 
 }

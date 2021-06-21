@@ -32,11 +32,6 @@ public class FileUtils {
 
     public List<AttachVO> uploadFiles(MultipartFile[] files, Long board_no) {
 
-        //파일이 비어있으면 비어있는 리스트 반환
-        if (files[0].getSize() < 1) {
-            return Collections.emptyList();
-        }
-
         //업로드 파일 정보를 담을 비어있는 리스트
         List<AttachVO> attachList = new ArrayList<>();
 
@@ -48,6 +43,12 @@ public class FileUtils {
         }
 
         for (MultipartFile file : files) {
+            log.info("FileUtils** >>>>>>{}", file);
+
+            //파일이 비어있으면 비어있는 리스트 반환
+            if (file.getSize() < 1) {
+                continue;
+            }
             try {
                 /* 파일 확장자 */
                 final String extension = FilenameUtils.getExtension(file.getOriginalFilename());
@@ -65,6 +66,8 @@ public class FileUtils {
                 attachVO.setOriginal_name(file.getOriginalFilename());
                 attachVO.setSave_name(saveName);
                 attachVO.setSize(file.getSize());
+
+                log.info("FileUtils**.name >>>>>>{}", attachVO.getSave_name());
 
                 //파일 정보 추가
                 attachList.add(attachVO);

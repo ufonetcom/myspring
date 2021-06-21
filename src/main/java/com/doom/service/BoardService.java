@@ -16,7 +16,7 @@ public interface BoardService {
 
     public BoardVO getDetailByBoardNo(Long board_no);
 
-    public boolean modify(BoardVO boardVO);
+    public boolean modify(BoardVO boardVO, MultipartFile[] files);
 
     public boolean remove(Long board_no);
 

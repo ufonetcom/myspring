@@ -22,22 +22,32 @@
     </select>
 
     <update id="deleteAttach" parameterType="long">
-        UPDATE tbl_reply
+        UPDATE tbl_attach
         SET delete_yn = 'Y', deletedate = now()
         WHERE board_no = #{board_no}
     </update>
 
     <select id="selectAttachList" parameterType="long" resultType="com.doom.domain.AttachVO">
         SELECT <include refid="attachColumns"/>
-        FROM tbl_reply
+        FROM tbl_attach
         WHERE delete_yn = 'N' AND board_no = #{board_no}
     </select>
     
-    <select id="readReplyTotalCount" parameterType="long" resultType="int">
+    <select id="selectAttachTotalCount" parameterType="long" resultType="int">
         SELECT count(*)
         FROM tbl_attach
         WHERE delete_yn='N' AND board_no = #{board_no}
     </select>
+
+    <update id="undeleteAttach" parameterType="list">
+        update tbl_attach
+        SET delete_yn = 'N'
+        WHERE file_no IN
+        <foreach collection="list" item="item" separator="," open="(" close=")">
+            #{item}
+        </foreach>
+    </update>
+
 
 
 

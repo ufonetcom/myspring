@@ -70,6 +70,6 @@ public class BoardServiceTests {
         }
 
         boardVO.setTitle("제목을 수정합니다. serviceTest");
-        log.info("Modify Result: {}", boardService.modify(boardVO));
+//        log.info("Modify Result: {}", boardService.modify(boardVO));
     }
 }

@@ -16,11 +16,14 @@
             <h6 class="m-0 font-weight-bold text-primary">자유게시판 글 수정</h6>
         </div>
         <div class="card-body">
-            <form role="form" action="/board/modify" method="post">
+            <form role="form" action="/board/modify" method="post" ENCTYPE="multipart/form-data">
 <%--                hidden값에 나머지 recordsPerPage와 pageSize 값은 현재로써는 동적이지 않으므로 view단에서는 crrentPageNo만 넘긴다.--%>
                 <input type="hidden" id="currentPageNo" name="currentPageNo" value='<c:out value="${params.currentPageNo}"/>'>
                 <input type="hidden" id="searchType" name="searchType" value='<c:out value="${params.searchType}"/>'>
                 <input type="hidden" id="searchKeyword" name="searchKeyword" value='<c:out value="${params.searchKeyword}"/>'>
+                <!--/* 파일이 변경된 경우, 해당 파라미터를 이용하여 파일 삭제 및 재등록 처리 */-->
+                <input type="hidden" id="change_yn" name="change_yn" value="N" />
+
                 <div class="form-group">
                     <div class="form-check">
                         <label>공지글
@@ -74,16 +77,17 @@
                     <c:if test="${not empty fileList}">
                         <c:forEach var="row" items="${fileList}" varStatus="status">
                             <div data-name="fileDiv" class="form-group filebox bs3-primary">
-                                <label for="file_${status}" id="filecnt" class="col-sm-2 control-label">파일 : 1/3</label>
+                                <label for="file_${status.index}" id="" class="col-sm-2 control-label">파일 : ${status.count}</label>
                                 <div class="col-sm-10">
-                                    <input type="hidden" name="file_no" value="${row.file_no}">
-                                    <input type="text" class="upload-name" value="파일 찾기" readonly />
-                                    <label for="file_0" class="control-label">찾아보기</label>
-                                    <input type="file" name="files" id="file_0" class="upload-hidden" onchange="changeFilename(this)" />
-
-                                    <button type="button" onclick="addFile()" class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
-                                        <i class="fa fa-plus" aria-hidden="true"></i>
-                                    </button>
+                                    <input type="hidden" name="fileIdx_no" value="${row.file_no}">
+                                    <input type="text" class="upload-name" value="${row.original_name}" readonly />
+                                    <label for="file_${status.index}" class="control-label">찾아보기</label>
+                                    <input type="file" name="files" id="file_${status.index}" class="upload-hidden" onchange="changeFilename(this)" />
+                                    <c:if test="${status.count eq 1}">
+                                        <button type="button" onclick="addFile()" class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
+                                            <i class="fa fa-plus" aria-hidden="true"></i>
+                                        </button>
+                                    </c:if>
                                     <button type="button" onclick="removeFile(this)" class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">
                                         <i class="fa fa-minus" aria-hidden="true"></i>
                                     </button>
@@ -92,7 +96,7 @@
                         </c:forEach>
                     </c:if>
 
-                    <div>
+                    <div id="btnDiv">
                         <button type="submit" data-oper='modify' class="btn btn-success btn-icon-split">
                             <span class="icon text-white-50">
                                 <i class="fas fa-check"></i>
@@ -120,7 +124,6 @@
                         </button>--%>
                     </div>
                 </div>
-
             </form>
         </div>
     </div>
@@ -128,22 +131,91 @@
 </div>
 <!-- /.container-fluid -->
 <script type="text/javascript">
+    const fileDivs = $('div[data-name="fileDiv"]');
+    let fileIdx = (!fileDivs) ? 0 : fileDivs.length; //파일 index처리용 전역변수
+
+    function addFile() {
+        console.log("fileDivs>>>>>"+fileDivs.length);
+        console.log("fileIdx>>>>>"+fileIdx);
+        if (fileIdx > 2) {
+            alert("파일은 최대 3개까지 업로드 할 수 있습니다.");
+            return false;
+        }
+
+        document.getElementById('change_yn').value = 'Y';
+        fileIdx++;
+
+        // $('label[id="filecnt"]').text("파일 : "+ (fileIdx+1) + "/3");
+
+        let fileHtml = "";
+        fileHtml += '<div data-name="fileDiv" class="form-group filebox bs3-primary">';
+        fileHtml +=     '<label for="file_' + fileIdx + '" class="col-sm-2 control-label"></label>';
+        fileHtml +=     '<div class="col-sm-10">';
+        fileHtml +=         '<input type="text" class="upload-name" value="파일 찾기" readonly />';
+        fileHtml +=         '<label for="file_' + fileIdx + '" class="control-label">찾아보기</label>';
+        fileHtml +=         '<input type="file" name="files" id="file_' + fileIdx + '" class="upload-hidden" onchange="changeFilename(this)" />';
+        fileHtml +=         '<button type="button" onclick="removeFile(this)" class="btn btn-bordered btn-xs visible-xs-inline visible-sm-inline visible-md-inline visible-lg-inline">';
+        fileHtml +=             '<i class="fa fa-minus" aria-hidden="true"></i>';
+        fileHtml +=         '</button>';
+        fileHtml +=     '</div>';
+        fileHtml += '</div>';
+
+        $('#btnDiv').before(fileHtml);
+    } //addFile end
+
+    function removeFile(elem) {
+        document.getElementById('change_yn').value = 'Y'; //추가
+
+        const prevTag = $(elem).prev().prop('tagName');
+        if (prevTag === 'BUTTON') {
+            const file = $(elem).prevAll('input[type="file"]');
+            const fileName = $(elem).prevAll('input[type="text"]');
+            file.val('');
+            fileName.val("파일 찾기");
+            return false;
+        }
+
+        fileIdx--;
+
+        const target = $(elem).parents('div[data-name="fileDiv"]');
+        target.remove();
+    } //removeFile() end
+
+    function changeFilename(file) {
+        document.getElementById('change_yn').value = 'Y'; //추가
+
+        file = $(file);
+        const filename = file[0].files[0].name;
+        console.log("선택된 파일 이름 >>> " + filename);
+        console.log("선택된 파일 사이즈 >>> " + file[0].files[0].size);
+        // const target = file.prevAll('input[class="upload-name"]');  //변경
+        const target = file.prevAll('.upload-name');  //변경
+
+        console.log(">>>>>>>"+target.val());
+
+        target.val(filename);
+
+        console.log(">>>>>>>!!"+target.val());
+
+        file.prevAll('input[name="fileIdx_no"]').remove(); //추가
+    } //changeFilename() end
+
     $(document).ready(function () {
+        console.log("fileIdx>>>"+fileIdx);
+
         let formObj = $("form");
 
         if(formObj.find("input[name='notice_yn']").val() === 'Y'){
             $("#notice_yn").prop("checked", true);
         }
-        if (formObj.find("input[name='secret_yn'").val() === 'Y'){
+        if (formObj.find("input[name='secret_yn']").val() === 'Y'){
             $("#secret_yn").prop("checked", true);
         }
 
-        $('button').on("click", function(e){
+        $('#btnDiv','button').on("click", function(e){
             e.preventDefault(); //form태그의 모든 버튼은 기본적으로 submit으로 처리하기때문에 기본동작을 막고 연산 처리.
 
             let operation = $(this).data("oper");
-
-            console.log(operation);
 
             if (operation === 'remove') {
                 formObj.attr("action", "/board/remove");

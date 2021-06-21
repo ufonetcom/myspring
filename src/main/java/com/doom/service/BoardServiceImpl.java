@@ -72,12 +72,32 @@ public class BoardServiceImpl implements BoardService{
     }
 
     @Override
-    public boolean modify(BoardVO boardVO) {
+    public boolean modify(BoardVO boardVO, MultipartFile[] files) {
 
         log.info("modify........{}",boardVO);
+        int queryResult = 1;
         int successCnt = boardMapper.updateBoard(boardVO);
 
-        if(successCnt==1) {
+        log.info("파일업로드 수정 변화값 >>> {}",boardVO.getChange_yn());
+        //파일이 추가,삭제,변경된 경우
+        if ("Y".equals(boardVO.getChange_yn())) {
+            attachMapper.deleteAttach(boardVO.getBoard_no());
+
+            log.info("파일업로드 수정 fileIdx값 >>> {}",boardVO.getFileIdx_no());
+
+            if (CollectionUtils.isEmpty(boardVO.getFileIdx_no()) == false) {
+                attachMapper.undeleteAttach(boardVO.getFileIdx_no());
+            }
+            List<AttachVO> fileList = fileUtils.uploadFiles(files, boardVO.getBoard_no());
+            if (CollectionUtils.isEmpty(fileList) == false) {
+                queryResult = attachMapper.insertAttach(fileList);
+//                if (queryResult < 1) {
+//                    queryResult = 0;
+//                }
+            }
+        }
+
+        if(successCnt==1 || queryResult==1) {
             return true;
         }
         return false;
@@ -113,15 +133,6 @@ public class BoardServiceImpl implements BoardService{
         return boardList;
     }
 
-    @Override
-    public List<AttachVO> getAttachFileList(Long board_no) {
-        int fileTotalCount = attachMapper.selectAttachTotalCount(board_no);
-        if (fileTotalCount < 1) {
-            return Collections.emptyList();
-        }
-        return attachMapper.selectAttachList(board_no);
-    }
-
     private List<BoardVO> getBoardList(BoardVO boardVO) {
         List<BoardVO> boardList = Collections.emptyList(); //예상치못한 NPE를 방지하기 위해 비어있는 list를 선언
 
@@ -138,5 +149,15 @@ public class BoardServiceImpl implements BoardService{
         }
 
         return boardList;
+    }
+
+
+    @Override
+    public List<AttachVO> getAttachFileList(Long board_no) {
+        int fileTotalCount = attachMapper.selectAttachTotalCount(board_no);
+        if (fileTotalCount < 1) {
+            return Collections.emptyList();
+        }
+        return attachMapper.selectAttachList(board_no);
     }
 }

@@ -14,6 +14,8 @@ public interface AttachMapper {
 
     public int deleteAttach(Long board_no);
 
+    public int undeleteAttach(List<Long> file_no);
+
     public List<AttachVO> selectAttachList(Long board_no);
 
     public int selectAttachTotalCount(Long board_no);

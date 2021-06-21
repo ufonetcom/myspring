@@ -60,10 +60,14 @@ public class BoardController {
     }
 
     @PostMapping("/modify")
-    public String modify(BoardVO boardVO, RedirectAttributes rttr) {
+    public String modify(BoardVO boardVO, final MultipartFile[] files, RedirectAttributes rttr) {
         log.info("modify : {}", boardVO);
         log.info("pageNo!!! : {}", boardVO.getCurrentPageNo());
-        boolean modify_TF = boardService.modify(boardVO);
+
+        log.info("files>>> {}",boardVO.getFileIdx_no());
+
+        boolean modify_TF = boardService.modify(boardVO, files);
+
         if (modify_TF) {
             //수정과 삭제 post는 makeQueryString함수를 호출하게되면 더 깔끔해 질 수 있다.
             rttr.addAttribute("currentPageNo", boardVO.getCurrentPageNo());
