@@ -24,6 +24,8 @@ public interface BoardService {
 
     public List<AttachVO> getAttachFileList(Long board_no);
 
+    public AttachVO getAttachDetail(Long file_no);
+
 
 
 }

@@ -15,7 +15,7 @@
                </foreach>
     </insert>
 
-    <select id="selectAttachDetail" parameterType="int" resultType="com.doom.domain.AttachVO">
+    <select id="selectAttachDetail" parameterType="long" resultType="com.doom.domain.AttachVO">
         SELECT <include refid="attachColumns"/>
         FROM tbl_attach
         WHERE delete_yn = 'N' AND file_no = #{file_no}

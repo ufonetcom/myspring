@@ -6,7 +6,6 @@ import com.doom.domain.BoardVO;
 import com.doom.mapper.AttachMapper;
 import com.doom.mapper.BoardMapper;
 import com.doom.util.FileUtils;
-import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -79,24 +78,23 @@ public class BoardServiceImpl implements BoardService{
         int successCnt = boardMapper.updateBoard(boardVO);
 
         log.info("파일업로드 수정 변화값 >>> {}",boardVO.getChange_yn());
+
         //파일이 추가,삭제,변경된 경우
         if ("Y".equals(boardVO.getChange_yn())) {
             attachMapper.deleteAttach(boardVO.getBoard_no());
 
             log.info("파일업로드 수정 fileIdx값 >>> {}",boardVO.getFileIdx_no());
 
+            //fileIdx 리스트에서 변경되지 않은 기존 파일의 change_yn컬럼 값을(y값) 다시 n으로 돌리는 작업(첨부파일삭제 취소 기능)
             if (CollectionUtils.isEmpty(boardVO.getFileIdx_no()) == false) {
                 attachMapper.undeleteAttach(boardVO.getFileIdx_no());
             }
+            //기존에 존재하는(변경되지않은) 파일을 제외하고 새롭게 변경,추가되는 파일이 거쳐가는 로직
             List<AttachVO> fileList = fileUtils.uploadFiles(files, boardVO.getBoard_no());
             if (CollectionUtils.isEmpty(fileList) == false) {
                 queryResult = attachMapper.insertAttach(fileList);
-//                if (queryResult < 1) {
-//                    queryResult = 0;
-//                }
             }
         }
-
         if(successCnt==1 || queryResult==1) {
             return true;
         }
@@ -159,5 +157,10 @@ public class BoardServiceImpl implements BoardService{
             return Collections.emptyList();
         }
         return attachMapper.selectAttachList(board_no);
+    }
+
+    @Override
+    public AttachVO getAttachDetail(Long file_no) {
+        return attachMapper.selectAttachDetail(file_no);
     }
 }

@@ -43,6 +43,22 @@
                     value='<c:out value="${board.writer}"/>' readonly="readonly">
                 </div>
 
+                <c:if test="${not empty fileList}">
+                    <div class="form-group">
+                        <label class="col-sm-2 control-label">File</label>
+                        <div class="col-sm-10 form-control-file">
+                                <c:forEach var="row" items="${fileList}" varStatus="status">
+                                    <div class="form-control file_list">
+                                    <a href="/board/download?file_no=${row.file_no}">
+                                        <i class="fa fa-file-download" aria-hidden="true"></i>
+                                            ${row.original_name}
+                                    </a>
+                                    </div>
+                                </c:forEach>
+                        </div>
+                    </div>
+                </c:if>
+
                 <div>
                     <button data-oper="modify" class="btn btn-success btn-icon-split">
                         <span class="icon text-white-50">

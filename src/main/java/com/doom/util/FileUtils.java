@@ -43,8 +43,6 @@ public class FileUtils {
         }
 
         for (MultipartFile file : files) {
-            log.info("FileUtils** >>>>>>{}", file);
-
             //파일이 비어있으면 비어있는 리스트 반환
             if (file.getSize() < 1) {
                 continue;
