@@ -44,4 +44,5 @@ public class RootConfig {
         return new DataSourceTransactionManager(dataSource());
     }
 
+
 }
